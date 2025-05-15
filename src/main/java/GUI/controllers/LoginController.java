@@ -1,0 +1,75 @@
+package GUI.controllers;
+
+import BE.User;
+import GUI.Navigator;
+import GUI.SessionManager;
+import GUI.View;
+import GUI.models.UserModel;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginController implements Initializable {
+    @FXML
+    private TextField txtUsername;
+    @FXML
+    private TextField txtPassword;
+    @FXML
+    private Button btnLogin;
+
+    private UserModel userModel;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        enterKeyListeners();
+    }
+
+    private void enterKeyListeners() {
+        txtUsername.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                login();
+            }
+        });
+        txtPassword.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                login();
+            }
+        });
+    }
+
+    public LoginController() {
+        try {
+            userModel = new UserModel();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //TODO alert
+        }
+    }
+
+    @FXML
+    public void handleLogin(ActionEvent actionEvent) {
+        login();
+    }
+
+    private void login() {
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+
+        try {
+            User user = userModel.authenticateUser(username, password);
+            SessionManager.getInstance().setCurrentUser(user);
+
+            Navigator.getInstance().goTo(View.ORDER);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //TODO alert
+        }
+    }
+}

@@ -1,0 +1,134 @@
+#belmanBar {
+    -fx-background-color: #004b88;
+    -fx-effect: dropshadow(three-pass-box, rgba(180, 180, 180, 0.8), 2, 0, 0, 4);
+}
+
+.imageView {
+    -fx-background-color: #ffffff;
+}
+
+#logoPane {
+    -fx-background-color: #ffffff;
+}
+
+BorderPane {
+    -fx-background-color: #f2f2f2;
+}
+
+
+.Vbox {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(180, 180, 180, 0.8), 2, 0, 0, 4);
+}
+
+#lblCurrentUser {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+#lstUsers {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 0px;
+}
+
+#lstUsers .list-cell {
+    -fx-background-color: white;
+    -fx-border-color: E5E7EB;
+    -fx-border-width: 1 0 1 0;
+    -fx-border-insets: -1 0 -1 0;
+    -fx-padding: 7;
+    -fx-font-size: 18;
+}
+
+#btnLogout {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+    -fx-pref-height: 40px;
+    -fx-border-width: 0;
+}
+
+#btnLogout:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.15);
+}
+
+#lstUsers {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 0px;
+}
+
+#lstUsers .list-cell {
+    -fx-background-color: white;
+
+    -fx-border-color: E5E7EB;
+    -fx-border-width: 1 0 1 0;
+    -fx-border-insets: -1 0 -1 0;
+    -fx-padding: 7;
+    -fx-font-size: 18;
+}
+
+#lstUsers .list-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+#lstUsers .list-cell:empty:hover {
+    -fx-background-color: transparent;
+}
+
+#lstUsers .list-cell:hover {
+    -fx-background-color: #EFF6FF;
+    -fx-background-insets: -2 0 0 0;
+}
+
+#lstUsers .first-visible {
+    -fx-background-insets: 0 0 0 0;
+    -fx-border-color: E5E7EB;
+    -fx-border-width: 2 0 0 0;
+}
+
+#lstUsers .list-cell:selected {
+    -fx-background-color: #EFF6FF;
+    -fx-text-fill: black;
+}
+#lstUsers:selected {
+    -fx-padding: 0px;
+}
+
+#lstUsers:focused {
+    -fx-border-width: 0px;
+    -fx-padding: 0px;
+    -fx-background-insets: 0;
+}
+#lstUsers .list-cell:selected .name-label {
+    -fx-text-fill: black;
+}
+
+#lstUsers .list-cell:selected .role-label {
+    -fx-text-fill: black;
+}
+#lstUsers .list-cell:selected .label {
+    -fx-text-fill: black;
+}
+
+#lblOrderSelect {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+#btnAdmin {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+    -fx-border-width: 0;
+}
+
+#btnAdmin:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.15);
+}
