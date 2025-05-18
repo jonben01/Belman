@@ -37,8 +37,11 @@
                      </children>
                   </StackPane>
                   <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <Label fx:id="lblOrderNumber" text="ORD1001-" />
-                  <ComboBox fx:id="cmbProducts" prefHeight="26.0" prefWidth="110.0" />
+                  <Label fx:id="lblOrderNumber" alignment="CENTER_RIGHT" prefWidth="100.0" />
+                  <ComboBox fx:id="cmbProducts" prefHeight="26.0" prefWidth="110.0">
+                     <HBox.margin>
+                        <Insets left="6.0" />
+                     </HBox.margin></ComboBox>
                   <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#handleRefresh" text="Button">
                      <HBox.margin>
                         <Insets left="12.0" />

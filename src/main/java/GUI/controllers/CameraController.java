@@ -129,7 +129,11 @@ public class CameraController implements Initializable {
 
     @FXML
     public void handleReturn(ActionEvent actionEvent) {
-        Navigator.getInstance().goTo(View.PHOTO_DOC);
+        Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
+            if (controller instanceof PhotoDocController photoDocController) {
+                photoDocController.setOrderAndMaybeProduct(selectedOrder, selectedProduct);
+            }
+        });
         //shut down the ExecutorService and stop the use of camera
         if (mainPreviewExecutor != null && !mainPreviewExecutor.isShutdown()) {
             mainPreviewExecutor.shutdownNow();

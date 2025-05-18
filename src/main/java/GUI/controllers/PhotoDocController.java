@@ -38,6 +38,7 @@ public class PhotoDocController implements Initializable {
     public Button btnSendReport;
     @FXML
     public Label lblOrderNumber;
+    @FXML
     public ComboBox<Product> cmbProducts;
 
     private Order order;
@@ -48,7 +49,6 @@ public class PhotoDocController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        lblOrderNumber.setText("");
 
     }
 
@@ -59,12 +59,9 @@ public class PhotoDocController implements Initializable {
     @FXML
     public void handleOpenCamera(ActionEvent actionEvent) {
         //TODO if more than once product is being shown, ask the user to select from a drop down.
+        if (productContainer.getChildren().size() > 1) {
 
-        Navigator.getInstance().goTo(View.CAMERA, controller -> {
-            if (controller instanceof CameraController cameraController) {
-                cameraController.setOrderAndProduct(order, selectedProduct);
-            }
-        });
+        }
     }
 
     //TODO rename this button
@@ -78,16 +75,11 @@ public class PhotoDocController implements Initializable {
         Navigator.getInstance().goTo(View.ORDER);
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-        if (order != null) {
-            lblOrderNumber.setText(order.getOrderNumber());
-        }
-    }
-
     public void setOrderAndMaybeProduct(Order order, Product product) {
         this.order = order;
         this.selectedProduct = product;
+
+        lblOrderNumber.setText(order.getOrderNumber() + "-");
 
         populateProductSwitcher(order);
         productContainer.getChildren().clear();
@@ -190,10 +182,18 @@ public class PhotoDocController implements Initializable {
 
         placeholder.setOnMouseClicked(event -> {
             //TODO make this instantly open the right product and order
-            //openCamera(product);
+            openCamera(product);
         });
 
         productBox.getChildren().add(imageBox);
         productContainer.getChildren().add(productBox);
+    }
+
+    private void openCamera(Product product) {
+        Navigator.getInstance().goTo(View.CAMERA, controller -> {
+            if (controller instanceof CameraController cameraController) {
+                cameraController.setOrderAndProduct(order, product);
+            }
+        });
     }
 }
