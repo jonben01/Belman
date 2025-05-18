@@ -1,18 +1,19 @@
-package GUI.models;
+package BLL;
 
 import BE.Product;
 import BE.User;
-import BLL.PhotoManager;
+import DAL.IPhotoDataAccess;
+import DAL.PhotoDAO;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-public class PhotoModel {
+public class PhotoManager {
 
-    private PhotoManager photoManager;
+    private IPhotoDataAccess photoDataAccess;
 
-    public PhotoModel() throws Exception {
-        photoManager = new PhotoManager();
+    public PhotoManager() throws Exception{
+        photoDataAccess = new PhotoDAO();
     }
 
     public void saveImageAndPath(List<BufferedImage> imagesToSave,
@@ -20,6 +21,7 @@ public class PhotoModel {
                                  User currentUser,
                                  Product product,
                                  String orderNumber) throws Exception {
-        photoManager.saveImageAndPath(imagesToSave, fileNames, currentUser, product, orderNumber);
+        photoDataAccess.saveImageAndPath(imagesToSave, fileNames, currentUser, product, orderNumber);
+
     }
 }

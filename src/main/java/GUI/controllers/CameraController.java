@@ -1,10 +1,12 @@
 package GUI.controllers;
 
+import BE.Order;
+import BE.Product;
 import BE.User;
 import BLL.CameraStrategy;
 import BLL.OpenCVStrategy;
-import GUI.Navigator;
-import GUI.SessionManager;
+import GUI.util.Navigator;
+import GUI.util.SessionManager;
 import GUI.View;
 import GUI.models.PhotoModel;
 import javafx.application.Platform;
@@ -64,11 +66,19 @@ public class CameraController implements Initializable {
     private final ArrayDeque<Image> gallery = new ArrayDeque<>();
     private PhotoModel photoModel;
     private List<BufferedImage> imagesToSave = new ArrayList<>();
-    private String productNumber;
     private int currentPreviewIndex = -1;
 
+    private Order selectedOrder;
+    private Product selectedProduct;
+
+
     public CameraController() {
-        photoModel = new PhotoModel();
+        try {
+            photoModel = new PhotoModel();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //TODO alert
+        }
     }
 
     @Override
@@ -110,8 +120,11 @@ public class CameraController implements Initializable {
         }, 0, 33, TimeUnit.MILLISECONDS);
 
         btnFinish.setDisable(true);
+    }
 
-
+    public void setOrderAndProduct(Order order, Product product) {
+        selectedOrder = order;
+        selectedProduct = product;
     }
 
     @FXML
@@ -147,7 +160,8 @@ public class CameraController implements Initializable {
         }
         User currentUser = SessionManager.getInstance().getCurrentUser();
         try {
-            photoModel.saveImageAndPath(imagesToSave, fileNames, currentUser, productNumber);
+            String orderNumber = selectedOrder.getOrderNumber();
+            photoModel.saveImageAndPath(imagesToSave, fileNames, currentUser, selectedProduct, orderNumber);
         } catch (Exception e) {
             e.printStackTrace();
             //TODO alert
@@ -162,7 +176,11 @@ public class CameraController implements Initializable {
                 //TODO exception
             }
         }
-        Navigator.getInstance().goTo(View.PHOTO_DOC);
+        Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
+            if (controller instanceof PhotoDocController photoDocController) {
+                photoDocController.setOrderAndMaybeProduct(selectedOrder, selectedProduct);
+            }
+        });
     }
 
     private void openOverlayPreview(int i) {
@@ -281,4 +299,6 @@ public class CameraController implements Initializable {
         imgPreview1.setImage((gallery.size() > 0 ? gallery.toArray(new Image[0])[0] : null));
         imgPreview2.setImage((gallery.size() > 1 ? gallery.toArray(new Image[0])[1] : null));
     }
+
+
 }

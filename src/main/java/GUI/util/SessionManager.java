@@ -1,4 +1,4 @@
-package GUI;
+package GUI.util;
 
 import BE.User;
 

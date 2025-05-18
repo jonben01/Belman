@@ -50,4 +50,9 @@ public class Product {
     public void setPhotos(List<Photo> photos) {
         this.photos = photos;
     }
+
+    @Override
+    public String toString() {
+        return productNumber;
+    }
 }

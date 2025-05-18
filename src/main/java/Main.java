@@ -1,7 +1,4 @@
-import BE.User;
-import GUI.Navigator;
-import GUI.SessionManager;
-import GUI.View;
+import GUI.util.Navigator;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

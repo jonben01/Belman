@@ -1,8 +1,8 @@
 package GUI.controllers;
 
 import BE.User;
-import GUI.Navigator;
-import GUI.SessionManager;
+import GUI.util.Navigator;
+import GUI.util.SessionManager;
 import GUI.View;
 import GUI.models.UserModel;
 import javafx.collections.FXCollections;

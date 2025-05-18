@@ -1,8 +1,9 @@
 package BE;
 
 public enum Tag {
-    Damaged,
-    Approved,
-    Rejected,
-    Cosmetic
+    DAMAGED,
+    APPROVED,
+    REJECTED,
+    INFORMATION,
+    COSMETIC
 }
