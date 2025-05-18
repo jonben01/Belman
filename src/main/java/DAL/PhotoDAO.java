@@ -20,6 +20,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+//TODO split this class up, gigantic breach of single responsibility.
+
 public class PhotoDAO implements IPhotoDataAccess {
 
     //added milliseconds to essentially guarantee the uniqueness of filenames.
@@ -30,7 +33,7 @@ public class PhotoDAO implements IPhotoDataAccess {
 
 
     @Override
-    public void saveImageAndPath(List<BufferedImage> photos,
+    public void saveImageAndPath(List<Photo> photos,
                                  List<String> fileNames,
                                  User uploader,
                                  Product product,
@@ -51,7 +54,7 @@ public class PhotoDAO implements IPhotoDataAccess {
 
             persistedPaths = saveImages(photos, fileNames, productFolderPath);
 
-            insertImagePathsToDB(connection, persistedPaths, uploader, product);
+            insertImagePathsToDB(connection, persistedPaths, uploader, product, photos);
 
             connection.commit();
         } catch (Exception e) {
@@ -90,7 +93,7 @@ public class PhotoDAO implements IPhotoDataAccess {
         }
     }
 
-    private List<Path> saveImages(List<BufferedImage> photos,
+    private List<Path> saveImages(List<Photo> photos,
                                   List<String> fileNames,
                                   Path productFolderPath) throws IOException {
         //This recursively tries to create the directories if they don't exist.
@@ -105,9 +108,11 @@ public class PhotoDAO implements IPhotoDataAccess {
             LocalDateTime now = LocalDateTime.now();
 
             for (int i = 0; i < photos.size(); i++) {
+                Photo photo = photos.get(i);
+                BufferedImage bufferedImage = photo.getImage();
                 String fileName = fileNames.get(i) + "_" + now.format(DATE_TIME_FORMATTER) + ".png";
                 Path tempFilePath = tempDir.resolve(fileName);
-                ImageIO.write(photos.get(i), "png", tempFilePath.toFile());
+                ImageIO.write(bufferedImage, "png", tempFilePath.toFile());
                 tempFilePaths.add(tempFilePath);
             }
             for (Path tempFilePath : tempFilePaths) {
@@ -127,8 +132,6 @@ public class PhotoDAO implements IPhotoDataAccess {
             deleteRecursively(tempDir);
             throw e;
         }
-
-
     }
 
     private void deleteRecursively(Path tempDir) {
@@ -151,17 +154,27 @@ public class PhotoDAO implements IPhotoDataAccess {
     }
 
     @Override
-    public void insertImagePathsToDB(Connection connection, List<Path> filePaths, User uploader, Product product) throws Exception {
+    public void insertImagePathsToDB(Connection connection, List<Path> filePaths, User uploader, Product product,
+                                     List<Photo> photos) throws Exception {
 
-        String sql = "INSERT INTO Photos (product_id, file_path, uploaded_by, uploaded_at) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Photos (product_id, file_path, uploaded_by, uploaded_at, tag_id) VALUES (?, ?, ?, ?, ?)";
 
         LocalDateTime now = LocalDateTime.now();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            for (Path path : filePaths) {
+            for (int i = 0; i < photos.size(); i++) {
+                Photo photo = photos.get(i);
+                Path path = filePaths.get(i);
+
                 statement.setInt(1, product.getId());
                 statement.setString(2, path.toString());
                 statement.setInt(3, uploader.getId());
                 statement.setObject(4, now);
+
+                if (photo.getTag() != null) {
+                    statement.setInt(5, photo.getTag().getId());
+                } else {
+                    statement.setNull(5, java.sql.Types.INTEGER);
+                }
                 statement.addBatch();
             }
             statement.executeBatch();

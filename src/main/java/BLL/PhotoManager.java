@@ -1,5 +1,6 @@
 package BLL;
 
+import BE.Photo;
 import BE.Product;
 import BE.User;
 import DAL.IPhotoDataAccess;
@@ -16,12 +17,12 @@ public class PhotoManager {
         photoDataAccess = new PhotoDAO();
     }
 
-    public void saveImageAndPath(List<BufferedImage> imagesToSave,
+    public void saveImageAndPath(List<Photo> photosToSave,
                                  List<String> fileNames,
                                  User currentUser,
                                  Product product,
                                  String orderNumber) throws Exception {
-        photoDataAccess.saveImageAndPath(imagesToSave, fileNames, currentUser, product, orderNumber);
+        photoDataAccess.saveImageAndPath(photosToSave, fileNames, currentUser, product, orderNumber);
 
     }
 }

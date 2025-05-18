@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface IPhotoDataAccess {
-    void insertImagePathsToDB(Connection connection, List<Path> filePaths, User uploader, Product product) throws Exception;
+    void insertImagePathsToDB(Connection connection, List<Path> filePaths, User uploader, Product product,
+                              List<Photo> photos) throws Exception;
 
-    void saveImageAndPath(List<BufferedImage> photos,
+    void saveImageAndPath(List<Photo> photosToSave,
                           List<String> fileNames,
                           User uploader,
                           Product product,

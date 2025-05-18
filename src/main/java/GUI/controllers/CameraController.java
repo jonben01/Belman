@@ -1,8 +1,6 @@
 package GUI.controllers;
 
-import BE.Order;
-import BE.Product;
-import BE.User;
+import BE.*;
 import BLL.CameraStrategy;
 import BLL.OpenCVStrategy;
 import GUI.util.Navigator;
@@ -14,12 +12,15 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Popup;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -59,17 +60,19 @@ public class CameraController implements Initializable {
     public Button btnDeletePreview;
     @FXML
     public Button btnClosePreview;
+    public Button btnTag;
 
     private ScheduledExecutorService mainPreviewExecutor;
     private CameraStrategy strategy;
 
     private final ArrayDeque<Image> gallery = new ArrayDeque<>();
     private PhotoModel photoModel;
-    private List<BufferedImage> imagesToSave = new ArrayList<>();
+    private List<Photo> photosToSave = new ArrayList<>();
     private int currentPreviewIndex = -1;
 
     private Order selectedOrder;
     private Product selectedProduct;
+    private Photo selectedPhoto;
 
 
     public CameraController() {
@@ -153,19 +156,19 @@ public class CameraController implements Initializable {
 
     @FXML
     public void handleFinishCamera(ActionEvent actionEvent) {
-        if (imagesToSave.isEmpty()) {
+        if (photosToSave.isEmpty()) {
             return;
         }
 
         List<String> fileNames = new ArrayList<>();
 
-        for (int i = 0; i < imagesToSave.size(); i++) {
+        for (int i = 0; i < photosToSave.size(); i++) {
             fileNames.add(i +"");
         }
         User currentUser = SessionManager.getInstance().getCurrentUser();
+        String orderNumber = selectedOrder.getOrderNumber();
         try {
-            String orderNumber = selectedOrder.getOrderNumber();
-            photoModel.saveImageAndPath(imagesToSave, fileNames, currentUser, selectedProduct, orderNumber);
+            photoModel.saveImageAndPath(photosToSave, fileNames, currentUser, selectedProduct, orderNumber);
         } catch (Exception e) {
             e.printStackTrace();
             //TODO alert
@@ -188,6 +191,7 @@ public class CameraController implements Initializable {
     }
 
     private void openOverlayPreview(int i) {
+        //convert array deque to array to make use of indexing.
         Image[] images = gallery.toArray(new Image[0]);
         if (i < images.length) {
             imgFullPreview.setImage(images[i]);
@@ -197,6 +201,7 @@ public class CameraController implements Initializable {
             btnReturn.setVisible(false);
             btnCapture.setVisible(false);
             currentPreviewIndex = i;
+            cameraRightVbox.setVisible(false);
 
             adjustImage(imgFullPreview, rootPane);
         }
@@ -215,8 +220,8 @@ public class CameraController implements Initializable {
         Image imageToDelete = images[currentPreviewIndex];
 
         gallery.remove(imageToDelete);
-        if (currentPreviewIndex < imagesToSave.size()) {
-            imagesToSave.remove(currentPreviewIndex);
+        if (currentPreviewIndex < photosToSave.size()) {
+            photosToSave.remove(currentPreviewIndex);
         }
         updatePreviews();
         closePreview();
@@ -235,6 +240,7 @@ public class CameraController implements Initializable {
         btnReturn.setVisible(true);
         btnCapture.setVisible(true);
         currentPreviewIndex = -1;
+        cameraRightVbox.setVisible(true);
     }
 
     @FXML
@@ -279,7 +285,12 @@ public class CameraController implements Initializable {
             Image image = strategy.takePhoto();
             sendToGallery(image);
             BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
-            imagesToSave.add(bImage);
+
+            Photo photo = new Photo();
+            photo.setImage(bImage);
+            photo.setTag(null);
+
+            photosToSave.add(photo);
             btnFinish.setDisable(false);
 
         } catch (Exception e) {
@@ -305,4 +316,46 @@ public class CameraController implements Initializable {
     }
 
 
+    public void handleTagImage(ActionEvent actionEvent) {
+        VBox tagPanel = new VBox(10);
+        tagPanel.getStyleClass().add("tag-panel");
+
+        Popup popup = new Popup();
+        popup.setAutoHide(true);
+
+        for (Tag tag : Tag.values()) {
+            if (tag == Tag.APPROVED || tag == Tag.REJECTED) {
+                //skip the QC tags
+                continue;
+            }
+            String tagText = tag.toString().charAt(0) + tag.toString().substring(1).toLowerCase();
+            Button tagButton = new Button(tagText);
+            tagButton.getStyleClass().add("tag-button");
+
+            tagButton.setOnAction(event -> {
+                popup.hide();
+                applyTagToPreview(tag);
+            });
+            tagPanel.getChildren().add(tagButton);
+        }
+        popup.getContent().add(tagPanel);
+
+        Node source = previewControls;
+        Bounds boundsInScene = source.localToScreen(source.getBoundsInLocal());
+
+        if (boundsInScene != null) {
+            double popupX = boundsInScene.getMinX() - tagPanel.getWidth() - 10;
+            double popupY = boundsInScene.getMinY();
+            popup.show(source.getScene().getWindow(), popupX, popupY);
+        }
+
+
+
+    }
+
+    private void applyTagToPreview(Tag tag) {
+        if (currentPreviewIndex >= 0 && currentPreviewIndex < photosToSave.size()) {
+            photosToSave.get(currentPreviewIndex).setTag(tag);
+        }
+    }
 }

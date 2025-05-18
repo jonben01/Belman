@@ -1,5 +1,6 @@
 package GUI.models;
 
+import BE.Photo;
 import BE.Product;
 import BE.User;
 import BLL.PhotoManager;
@@ -15,11 +16,11 @@ public class PhotoModel {
         photoManager = new PhotoManager();
     }
 
-    public void saveImageAndPath(List<BufferedImage> imagesToSave,
+    public void saveImageAndPath(List<Photo> photosToSave,
                                  List<String> fileNames,
                                  User currentUser,
                                  Product product,
                                  String orderNumber) throws Exception {
-        photoManager.saveImageAndPath(imagesToSave, fileNames, currentUser, product, orderNumber);
+        photoManager.saveImageAndPath(photosToSave, fileNames, currentUser, product, orderNumber);
     }
 }

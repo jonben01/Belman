@@ -77,8 +77,17 @@
                 </VBox>
             </children>
         </VBox>
-        <VBox fx:id="previewControls" alignment="CENTER" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" spacing="40.0" visible="false" StackPane.alignment="TOP_RIGHT">
+        <VBox fx:id="previewControls" alignment="CENTER" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" spacing="60.0" visible="false" StackPane.alignment="TOP_RIGHT">
             <children>
+            <Button fx:id="btnTag" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#handleTagImage" prefHeight="40.0" prefWidth="40.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-tag-96.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
                 <Button fx:id="btnDeletePreview" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#handleDeletePreview" prefHeight="40.0" prefWidth="40.0" styleClass="previewButton">
                     <graphic>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">

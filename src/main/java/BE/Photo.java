@@ -1,5 +1,6 @@
 package BE;
 
+import java.awt.image.BufferedImage;
 import java.sql.Timestamp;
 
 public class Photo {
@@ -9,6 +10,7 @@ public class Photo {
     private String capturedBy;
     private Timestamp takenAt;
     private Tag tag;
+    private BufferedImage image;
 
     public Photo(int id, String filePath, int productId, String capturedBy, Timestamp takenAt, Tag tag) {
         this.id = id;
@@ -21,6 +23,14 @@ public class Photo {
 
     public Photo() {
 
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
     }
 
     public int getId() {

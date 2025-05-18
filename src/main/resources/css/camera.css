@@ -2,6 +2,10 @@
     -fx-background-color: rgba(0, 0, 0, 0.4);
 }
 
+#previewControls {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+
 .imgPreview {
     -fx-background-radius: 10;
     -fx-border-radius: 10;
@@ -20,6 +24,13 @@
 }
 
 .previewButton {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8;
+    -fx-cursor: hand;
+}
+
+#btnTag {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-padding: 8;
