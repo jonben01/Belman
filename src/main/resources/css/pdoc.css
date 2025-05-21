@@ -1,0 +1,106 @@
+.product-label {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.product-button {
+    -fx-background-color: #004b88;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 8px;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.product-button:hover {
+    -fx-background-color: #006bbd;
+}
+
+#vboxGray {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+.preview-border {
+    -fx-border-color: #3498db;
+    -fx-border-width: 4px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 8px;
+    -fx-alignment: center;
+    -fx-background-color: white;
+}
+.preview-border:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+
+.label-metadata {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: 500;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.preview-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8;
+    -fx-cursor: hand;
+}
+
+.preview-button:hover .button-image {
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.4), 40, 0, 0, 0);
+}
+
+#previewControls {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+
+.product-box {
+    -fx-border-color: black;
+    -fx-padding: 10;
+    -fx-background-color: #f0f0f0;
+}
+
+.image-card {
+    -fx-background-color: transparent;
+    -fx-border-radius: 0;
+    -fx-border-width: 4;
+}
+
+.image-card:hover {
+    -fx-cursor: hand;
+}
+
+.image-card ImageView {
+    -fx-opacity: 1;
+    -fx-effect: null;
+    -fx-background-color: transparent;
+    -fx-smooth: true;
+}
+
+.image-card:hover ImageView {
+    -fx-opacity: 1;
+    -fx-effect: innershadow(gaussian, rgba(255,255,255,0.4), 30, 0, 0, 0);
+}
+
+.tag-approved {
+    -fx-border-color: #2ecc71; /* Bright green */
+}
+
+.tag-rejected {
+    -fx-border-color: #e74c3c; /* Vivid red */
+}
+
+.tag-info {
+    -fx-border-color: #f1c40f; /* Bright yellow */
+}
+
+.tag-null {
+    -fx-border-color: gray;
+}
+

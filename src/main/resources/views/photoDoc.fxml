@@ -13,69 +13,173 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="788.0" prefWidth="1050.0" stylesheets="@../css/admin.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.controllers.PhotoDocController">
-   <center>
-      <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <content>
-            <VBox fx:id="productContainer" prefHeight="200.0" prefWidth="100.0" spacing="12.0" />
-         </content>
-         <BorderPane.margin>
-            <Insets top="6.0" />
-         </BorderPane.margin></ScrollPane>
-   </center>
-   <top>
-      <VBox prefHeight="54.0" prefWidth="952.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox fx:id="belmanBar" alignment="CENTER" maxHeight="54.0" minHeight="54.0" prefHeight="54.0">
+<StackPane fx:id="actualRootPane" prefHeight="870.0" prefWidth="1546.0" stylesheets="@../css/pdoc.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.controllers.PhotoDocController">
+   <children>
+      <BorderPane prefWidth="1050.0" stylesheets="@../css/admin.css">
+         <center>
+            <StackPane fx:id="rootPane" prefWidth="1026.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="6.0" />
+               </BorderPane.margin>
                <children>
-                  <StackPane fx:id="logoPane" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" prefHeight="54.0" prefWidth="54.0">
+                  <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <VBox fx:id="productContainer" prefHeight="200.0" prefWidth="100.0" spacing="12.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </StackPane>
+         </center>
+         <top>
+            <VBox prefHeight="54.0" prefWidth="952.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox fx:id="belmanBar" alignment="CENTER" maxHeight="54.0" minHeight="54.0" prefHeight="54.0">
                      <children>
-                        <ImageView fitHeight="54.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/BELMAN_Logo_264pxl.png" />
-                           </image></ImageView>
+                        <StackPane fx:id="logoPane" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" prefHeight="54.0" prefWidth="54.0">
+                           <children>
+                              <ImageView fitHeight="54.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/BELMAN_Logo_264pxl.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lblOrderNumber" alignment="CENTER_RIGHT" prefWidth="100.0" />
+                        <ComboBox fx:id="cmbProducts" prefHeight="26.0" prefWidth="110.0">
+                           <HBox.margin>
+                              <Insets left="6.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                        <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#handleRefresh" text="Button">
+                           <HBox.margin>
+                              <Insets left="12.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnLogout" maxHeight="46.0" maxWidth="46.0" minHeight="46.0" minWidth="46.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="46.0" prefWidth="46.0">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icons8-logout-100.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <HBox.margin>
+                              <Insets right="6.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
-                  </StackPane>
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <Label fx:id="lblOrderNumber" alignment="CENTER_RIGHT" prefWidth="100.0" />
-                  <ComboBox fx:id="cmbProducts" prefHeight="26.0" prefWidth="110.0">
-                     <HBox.margin>
-                        <Insets left="6.0" />
-                     </HBox.margin></ComboBox>
-                  <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#handleRefresh" text="Button">
-                     <HBox.margin>
-                        <Insets left="12.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnLogout" maxHeight="46.0" maxWidth="46.0" minHeight="46.0" minWidth="46.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="46.0" prefWidth="46.0">
+                  </HBox>
+               </children>
+            </VBox>
+         </top>
+         <padding>
+            <Insets left="12.0" right="12.0" top="12.0" />
+         </padding>
+         <bottom>
+            <StackPane BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="928.0">
+                     <children>
+                        <Region prefHeight="75.0" prefWidth="89.0" />
+                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnOpenCamera" mnemonicParsing="false" onAction="#handleOpenCamera" text="camera" />
+                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnSendReport" mnemonicParsing="false" onAction="#handleSendReport" text="send report" />
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+         </bottom>
+      </BorderPane>
+      <VBox fx:id="vboxGray" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
+         <children>
+            <VBox fx:id="productOptionContainer" alignment="TOP_CENTER" prefHeight="406.0" prefWidth="1050.0" spacing="10.0" VBox.vgrow="NEVER" />
+         </children>
+      </VBox>
+      <StackPane fx:id="previewContainer" alignment="TOP_LEFT" visible="false">
+         <children>
+            <ImageView fx:id="imgPreview" pickOnBounds="true" />
+         </children>
+      </StackPane>
+      <VBox fx:id="previewMetaData" alignment="BOTTOM_LEFT" maxWidth="277.0" minWidth="160.0" prefHeight="858.0" prefWidth="277.0" spacing="12.0" visible="false" StackPane.alignment="BOTTOM_LEFT">
+         <children>
+            <Label fx:id="lblMetaDataOrderAndProduct" styleClass="label-metadata" text="Order and Product" />
+            <Label fx:id="lblMetaDataTimestamp" styleClass="label-metadata" text="Time:" />
+            <Label fx:id="lblMetaDataUser" styleClass="label-metadata" text="Captured by:" />
+         </children>
+         <StackPane.margin>
+            <Insets bottom="12.0" left="12.0" />
+         </StackPane.margin>
+      </VBox>
+      <StackPane fx:id="previewControls" maxWidth="160.0" minWidth="160.0" visible="false" StackPane.alignment="CENTER_RIGHT">
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+         <children>
+            <VBox alignment="CENTER" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" spacing="20.0">
+               <children>
+                  <Button fx:id="btnReject" mnemonicParsing="false" onAction="#handleRejectPreview" styleClass="preview-button">
                      <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" styleClass="button-image">
                            <image>
-                              <Image url="@../images/icons8-logout-100.png" />
+                              <Image url="@../images/icons8-cancel-80.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                     <HBox.margin>
-                        <Insets right="6.0" />
-                     </HBox.margin></Button>
+                     <VBox.margin>
+                        <Insets bottom="12.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="btnPrev" mnemonicParsing="false" onAction="#handlePreviousPreview" styleClass="preview-button">
+                     <graphic>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" styleClass="button-image">
+                           <image>
+                              <Image url="@../images/icons8-previous-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label fx:id="lblTotalImages" styleClass="label-metadata" text="1/12" />
+                  <Button fx:id="btnNext" mnemonicParsing="false" onAction="#handleNextPreview" styleClass="preview-button">
+                     <graphic>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" styleClass="button-image">
+                           <image>
+                              <Image url="@../images/icons8-next-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnApprove" mnemonicParsing="false" onAction="#handleApprovePreview" styleClass="preview-button">
+                     <graphic>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" styleClass="button-image">
+                           <image>
+                              <Image url="@../images/icons8-checkmark-80.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="12.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
-            </HBox>
+            </VBox>
+            <VBox alignment="CENTER" maxHeight="180.0" maxWidth="160.0" minHeight="180.0" minWidth="160.0" prefHeight="120.0" prefWidth="120.0" spacing="30.0" StackPane.alignment="TOP_CENTER">
+               <children>
+                  <Button fx:id="btnClosePreview" mnemonicParsing="false" onAction="#handleClosePreview" styleClass="preview-button">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="button-image">
+                           <image>
+                              <Image url="@../images/icons8-close-96.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label fx:id="lblMetaDataTag" styleClass="label-metadata" text="Status:" />
+               </children>
+            </VBox>
          </children>
-      </VBox>
-   </top>
-   <padding>
-      <Insets left="12.0" right="12.0" top="12.0" />
-   </padding>
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="75.0" prefWidth="928.0" BorderPane.alignment="CENTER">
-         <children>
-            <Region prefHeight="75.0" prefWidth="89.0" />
-            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnOpenCamera" mnemonicParsing="false" onAction="#handleOpenCamera" text="camera" />
-            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnSendReport" mnemonicParsing="false" onAction="#handleSendReport" text="send report" />
-         </children>
-      </HBox>
-   </bottom>
-</BorderPane>
+      </StackPane>
+   </children>
+</StackPane>

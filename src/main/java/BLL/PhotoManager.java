@@ -25,4 +25,8 @@ public class PhotoManager {
         photoDataAccess.saveImageAndPath(photosToSave, fileNames, currentUser, product, orderNumber);
 
     }
+
+    public void updateTag(Photo photo) throws Exception {
+        photoDataAccess.updateTag(photo);
+    }
 }

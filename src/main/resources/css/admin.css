@@ -133,49 +133,6 @@ BorderPane {
     -fx-background-color: rgba(0, 0, 0, 0.15);
 }
 
-.product-box {
-    -fx-border-color: black;
-    -fx-padding: 10;
-    -fx-background-color: #f0f0f0;
-}
-
-.image-card {
-    -fx-background-color: transparent;
-    -fx-border-radius: 0;
-    -fx-border-width: 3;
-}
-
-.image-card:hover {
-    -fx-cursor: hand;
-}
-
-.image-card ImageView {
-    -fx-opacity: 1;
-    -fx-effect: null;
-    -fx-background-color: transparent;
-    -fx-smooth: true;
-}
-
-.image-card:hover ImageView {
-    -fx-opacity: 1;
-    -fx-effect: innershadow(gaussian, rgba(255,255,255,0.4), 30, 0, 0, 0);
-}
-
-.tag-approved {
-    -fx-border-color: green;
-}
-
-.tag-rejected {
-    -fx-border-color: red;
-}
-
-.tag-info {
-    -fx-border-color: yellow;
-}
-
-.tag-null {
-    -fx-border-color: gray;
-}
 
 .product-label {
     -fx-font-size: 16px;
@@ -260,4 +217,5 @@ BorderPane {
     -fx-font-size: 18px;
     -fx-text-fill: white;
 }
+
 

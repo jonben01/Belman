@@ -12,15 +12,6 @@ public class Photo {
     private Tag tag;
     private BufferedImage image;
 
-    public Photo(int id, String filePath, int productId, String capturedBy, Timestamp takenAt, Tag tag) {
-        this.id = id;
-        this.filePath = filePath;
-        this.productId = productId;
-        this.capturedBy = capturedBy;
-        this.takenAt = takenAt;
-        this.tag = tag;
-    }
-
     public Photo() {
 
     }

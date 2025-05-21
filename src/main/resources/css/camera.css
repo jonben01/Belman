@@ -23,7 +23,7 @@
     -fx-cursor: hand;
 }
 
-.previewButton {
+.preview-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-padding: 8;

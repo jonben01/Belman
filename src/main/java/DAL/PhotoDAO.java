@@ -32,6 +32,7 @@ public class PhotoDAO implements IPhotoDataAccess {
 
 
 
+    //TODO refactor this, after switching to photo objects, just use them as DTO's, only needs order + list of photos then
     @Override
     public void saveImageAndPath(List<Photo> photos,
                                  List<String> fileNames,
@@ -123,6 +124,11 @@ public class PhotoDAO implements IPhotoDataAccess {
                 //move the temp file to the final destination.
                 Files.move(tempFilePath, movedFilePath);
                 movedFilePaths.add(movedFilePath);
+            }
+            for (int i = 0; i < photos.size(); i++) {
+                Photo photo = photos.get(i);
+                Path path = movedFilePaths.get(i);
+                photo.setFilePath(path.toString());
             }
             Files.deleteIfExists(tempDir);
             return movedFilePaths;
@@ -238,5 +244,29 @@ public class PhotoDAO implements IPhotoDataAccess {
             }
         }
         return photoMap;
+    }
+
+    @Override
+    public void updateTag(Photo photo) throws Exception {
+        String sql;
+        //super stupid
+        if (photo.getTag() == Tag.APPROVED) {
+            sql = "UPDATE Photos SET tag_id = 2 WHERE id = ?";
+        } else if (photo.getTag() == Tag.REJECTED) {
+            sql = "UPDATE Photos SET tag_id = 3 WHERE id = ?";
+        } else {
+            sql = "UPDATE Photos SET tag_id = 5 WHERE id = ?";
+        }
+
+        try (Connection connection = DBConnector.getInstance().getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, photo.getId());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new Exception("An error occurred while updating tag for photo with id: " + photo.getProductId(), e);
+        }
+
     }
 }

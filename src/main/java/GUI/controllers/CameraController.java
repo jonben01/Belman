@@ -3,6 +3,7 @@ package GUI.controllers;
 import BE.*;
 import BLL.CameraStrategy;
 import BLL.OpenCVStrategy;
+import GUI.util.ImageScaler;
 import GUI.util.Navigator;
 import GUI.util.SessionManager;
 import GUI.View;
@@ -15,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -60,6 +63,7 @@ public class CameraController implements Initializable {
     public Button btnDeletePreview;
     @FXML
     public Button btnClosePreview;
+    @FXML
     public Button btnTag;
 
     private ScheduledExecutorService mainPreviewExecutor;
@@ -92,6 +96,7 @@ public class CameraController implements Initializable {
         clip.heightProperty().bind(cameraStackPane.heightProperty());
         cameraStackPane.setClip(clip);
 
+
         imgCamera.setManaged(false);
 
         bindPreviewToRoot();
@@ -113,7 +118,7 @@ public class CameraController implements Initializable {
                 Image frame = strategy.takePhoto();
                 Platform.runLater(() -> {
                     imgCamera.setImage(frame);
-                    adjustImage(imgCamera, cameraStackPane);
+                    ImageScaler.adjustImageToContainer(imgCamera, cameraStackPane);
                 });
 
             } catch (Exception e) {
@@ -154,6 +159,9 @@ public class CameraController implements Initializable {
         captureImage();
     }
 
+
+    //TODO do the db calling in a new thread, and lock the buttons and show a spinny animation with UPLOADING IMAGES
+
     @FXML
     public void handleFinishCamera(ActionEvent actionEvent) {
         if (photosToSave.isEmpty()) {
@@ -183,6 +191,7 @@ public class CameraController implements Initializable {
                 //TODO exception
             }
         }
+        selectedProduct.getPhotos().addAll(photosToSave);
         Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
             if (controller instanceof PhotoDocController photoDocController) {
                 photoDocController.setOrderAndMaybeProduct(selectedOrder, selectedProduct);
@@ -203,7 +212,7 @@ public class CameraController implements Initializable {
             currentPreviewIndex = i;
             cameraRightVbox.setVisible(false);
 
-            adjustImage(imgFullPreview, rootPane);
+            ImageScaler.adjustImageToContainer(imgFullPreview, rootPane);
         }
     }
 
@@ -250,34 +259,22 @@ public class CameraController implements Initializable {
 
     private void bindPreviewToRoot() {
         rootPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            adjustImage(imgFullPreview, rootPane);
+            ImageScaler.adjustImageToContainer(imgFullPreview, rootPane);
         });
         rootPane.heightProperty().addListener((observable, oldValue, newValue) -> {
-            adjustImage(imgFullPreview, rootPane);
+            ImageScaler.adjustImageToContainer(imgFullPreview, rootPane);
         });
     }
 
+    /** This method binds the camera ImageView's width and height properties to its parent, cameraStackPane.
+     */
     private void bindCameraViewToRoot() {
         cameraStackPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            adjustImage(imgCamera, cameraStackPane);
+            ImageScaler.adjustImageToContainer(imgCamera, cameraStackPane);
         });
         cameraStackPane.heightProperty().addListener((observable, oldValue, newValue) -> {
-            adjustImage(imgCamera, cameraStackPane);
+            ImageScaler.adjustImageToContainer(imgCamera, cameraStackPane);
         });
-    }
-
-    private void adjustImage(ImageView imageView, StackPane container) {
-        Image frame = imageView.getImage();
-        double paneHeight = container.getHeight();
-        double paneWidth = container.getWidth();
-        if (frame == null || paneHeight <= 0 || paneWidth <= 0) {
-            return;
-        }
-
-        double scale = Math.max(paneWidth / frame.getWidth(), paneHeight / frame.getHeight());
-        imageView.setPreserveRatio(true);
-        imageView.setFitWidth(frame.getWidth() * scale);
-        imageView.setFitHeight(frame.getHeight() * scale);
     }
 
     private void captureImage() {
@@ -317,11 +314,7 @@ public class CameraController implements Initializable {
 
 
     public void handleTagImage(ActionEvent actionEvent) {
-        VBox tagPanel = new VBox(10);
-        tagPanel.getStyleClass().add("tag-panel");
-
-        Popup popup = new Popup();
-        popup.setAutoHide(true);
+        ContextMenu contextMenu = new ContextMenu();
 
         for (Tag tag : Tag.values()) {
             if (tag == Tag.APPROVED || tag == Tag.REJECTED) {
@@ -329,28 +322,18 @@ public class CameraController implements Initializable {
                 continue;
             }
             String tagText = tag.toString().charAt(0) + tag.toString().substring(1).toLowerCase();
-            Button tagButton = new Button(tagText);
-            tagButton.getStyleClass().add("tag-button");
+            MenuItem tagItem = new MenuItem(tagText);
 
-            tagButton.setOnAction(event -> {
-                popup.hide();
+            tagItem.setOnAction(event -> {
                 applyTagToPreview(tag);
             });
-            tagPanel.getChildren().add(tagButton);
-        }
-        popup.getContent().add(tagPanel);
-
-        Node source = previewControls;
-        Bounds boundsInScene = source.localToScreen(source.getBoundsInLocal());
-
-        if (boundsInScene != null) {
-            double popupX = boundsInScene.getMinX() - tagPanel.getWidth() - 10;
-            double popupY = boundsInScene.getMinY();
-            popup.show(source.getScene().getWindow(), popupX, popupY);
+            contextMenu.getItems().add(tagItem);
         }
 
-
-
+        Bounds boundsInScreen = previewControls.localToScreen(previewControls.getBoundsInLocal());
+        if (boundsInScreen != null) {
+            contextMenu.show(previewControls, boundsInScreen.getMaxX(), boundsInScreen.getMinY());
+        }
     }
 
     private void applyTagToPreview(Tag tag) {
