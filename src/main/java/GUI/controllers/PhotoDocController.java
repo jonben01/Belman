@@ -1,7 +1,10 @@
 package GUI.controllers;
 
 import BE.*;
+import BLL.util.ReportGenerator;
+import BLL.util.ReportUtils;
 import GUI.models.PhotoModel;
+import GUI.models.ReportModel;
 import GUI.util.*;
 import GUI.View;
 import javafx.application.Platform;
@@ -35,7 +38,7 @@ public class PhotoDocController implements Initializable {
     @FXML
     public Button btnOpenCamera;
     @FXML
-    public Button btnSendReport;
+    public Button btnGenerateReport;
     @FXML
     public Label lblOrderNumber;
     @FXML
@@ -165,8 +168,63 @@ public class PhotoDocController implements Initializable {
 
     //TODO rename this button
     @FXML
-    public void handleSendReport(ActionEvent actionEvent) {
-        //TODO GO TO REPORT PREVIEW PAGE
+    public void handleGenerateReport(ActionEvent actionEvent) {
+        if (verifyDocumentation()) {
+            try {
+                Navigator.getInstance().showModal(View.REPORT_MODAL, controller -> {
+                    if (controller instanceof ReportController reportController) {
+                        try {
+                            reportController.setOrder(order);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            //todo Alert
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                AlertHelper.showAlertError("Report generation failed",
+                        "An error occurred while generating the report, please try again later.");
+            }
+        }
+    }
+
+    private boolean verifyDocumentation() {
+        List<String> unapprovedPhotos = new ArrayList<>();
+        List<String> productsWithLimitedPhotos = new ArrayList<>();
+        List<String> productsWithNoPhotos = new ArrayList<>();
+        for (Product p : productList) {
+            if (p.getPhotos().size() < 5) {
+                productsWithLimitedPhotos.add(p.getProductNumber());
+            }
+            if (p.getPhotos().isEmpty()) {
+                productsWithNoPhotos.add(p.getProductNumber());
+            }
+            for (Photo photo : p.getPhotos()) {
+                if (photo.getTag() != Tag.APPROVED) {
+                    unapprovedPhotos.add(p.getProductNumber());
+                }
+            }
+        }
+        if (!productsWithNoPhotos.isEmpty()) {
+            return AlertHelper.showConfirmationAlert("Missing documentation",
+                    "The following products have no photos:\n"
+                            + String.join("\n", productsWithNoPhotos)
+                            + "\nDo you want to generate a report anyway?");
+        }
+        if (!productsWithLimitedPhotos.isEmpty()) {
+            return AlertHelper.showConfirmationAlert("Limited photos",
+                    "The following products have less than 5 photos:\n"
+                            + String.join("\n", productsWithLimitedPhotos)
+                            + "\nDo you want to generate a report anyway?");
+        }
+        if (!unapprovedPhotos.isEmpty()) {
+            return AlertHelper.showConfirmationAlert("Unapproved photos",
+                    "The following products have unapproved photos:\n"
+                            + String.join("\n", unapprovedPhotos)
+                            + "\nDo you want to generate a report anyway?");
+        }
+        return true;
     }
 
     @FXML

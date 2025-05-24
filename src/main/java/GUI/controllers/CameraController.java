@@ -69,6 +69,12 @@ public class CameraController implements Initializable {
     private ScheduledExecutorService mainPreviewExecutor;
     private CameraStrategy strategy;
 
+
+    //ArrayDeque is used to mimic FIFO behavior for the gallery, but achieves it in reverse order
+    //using addFirst and removeLast instead of addLast and removeFirst.
+    //the only benefit to this is avoiding index flipping for the UI logic.
+    //easier to write and read images[0] than images[images.length-1]
+    //LinkedList is more code and slower.
     private final ArrayDeque<Image> gallery = new ArrayDeque<>();
     private PhotoModel photoModel;
     private List<Photo> photosToSave = new ArrayList<>();

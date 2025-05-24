@@ -84,12 +84,14 @@ public class Navigator {
             modalStage.initModality(Modality.APPLICATION_MODAL);
             modalStage.setScene(new Scene(root));
             modalStage.centerOnScreen();
-            modalStage.showAndWait();
 
             Object controller = loader.getController();
             if (controllerConsumer != null && controller != null) {
                 controllerConsumer.accept(controller);
             }
+            modalStage.showAndWait();
+
+
         } catch (IOException e) {
             e.printStackTrace();
             //TODO BUBBLE UP EXCEPTION And THEN SHOW ALERT

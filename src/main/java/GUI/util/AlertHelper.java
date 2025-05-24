@@ -48,4 +48,12 @@ public class AlertHelper {
         //return the result if present, otherwise return false.
         return result.orElse(no) == yes;
     }
+
+    public static void showAlertWarning (String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

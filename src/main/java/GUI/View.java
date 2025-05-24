@@ -8,7 +8,8 @@ public enum View {
     ADMIN("/views/admin.fxml", AdminController.class),
     USER_CREATION_MODAL("/views/userCreationModal.fxml", UserCreationController.class),
     ORDER("/views/order.fxml", OrderController.class),
-    PHOTO_DOC("/views/photoDoc.fxml", PhotoDocController.class);
+    PHOTO_DOC("/views/photoDoc.fxml", PhotoDocController.class),
+    REPORT_MODAL("/views/reportPreviewModal.fxml", ReportController.class);
 
 
     private final String fxml;
