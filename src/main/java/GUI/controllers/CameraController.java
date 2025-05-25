@@ -14,7 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -23,7 +22,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Popup;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -46,7 +44,7 @@ public class CameraController implements Initializable {
     @FXML
     public ImageView imgFullPreview;
     @FXML
-    public VBox cameraRightVbox;
+    public StackPane controlsContainer;
     @FXML
     public Button btnReturn;
     @FXML
@@ -216,7 +214,7 @@ public class CameraController implements Initializable {
             btnReturn.setVisible(false);
             btnCapture.setVisible(false);
             currentPreviewIndex = i;
-            cameraRightVbox.setVisible(false);
+            controlsContainer.setVisible(false);
 
             ImageScaler.adjustImageToContainer(imgFullPreview, rootPane);
         }
@@ -255,7 +253,7 @@ public class CameraController implements Initializable {
         btnReturn.setVisible(true);
         btnCapture.setVisible(true);
         currentPreviewIndex = -1;
-        cameraRightVbox.setVisible(true);
+        controlsContainer.setVisible(true);
     }
 
     @FXML

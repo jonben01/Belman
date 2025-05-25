@@ -276,3 +276,7 @@ BorderPane {
     -fx-background-color: rgba(218, 218, 218, 0.4);
 }
 
+#lblSentStatus {
+    -fx-font-size: 18px;
+    -fx-text-fill: black;
+}

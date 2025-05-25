@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,6 +38,7 @@ public class OrderController implements Initializable {
         if (SessionManager.getInstance().getCurrentUser().getRole() == Role.ADMIN) {
             btnAdmin.setVisible(true);
         }
+        enterKeyListeners();
 
     }
     public OrderController() {
@@ -46,6 +48,15 @@ public class OrderController implements Initializable {
             e.printStackTrace();
             //TODO alert
         }
+    }
+
+    private void enterKeyListeners() {
+        txtOrderNumber.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                String input = txtOrderNumber.getText();
+                searchAndNavigate(input);
+            }
+        });
     }
 
     @FXML

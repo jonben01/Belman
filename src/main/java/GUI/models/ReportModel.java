@@ -1,6 +1,7 @@
 package GUI.models;
 
 import BE.Order;
+import BE.QCReport;
 import BLL.ReportManager;
 import javafx.scene.image.Image;
 
@@ -21,5 +22,9 @@ public class ReportModel {
 
     public void sendEmail(String toEmail, String comment, Order order) throws Exception {
         reportManager.sendEmail(toEmail, comment, order);
+    }
+
+    public QCReport getReportInfo(int orderId) throws Exception {
+        return reportManager.getReportInfo(orderId);
     }
 }

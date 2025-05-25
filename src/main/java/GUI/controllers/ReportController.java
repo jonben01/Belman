@@ -1,6 +1,7 @@
 package GUI.controllers;
 
 import BE.Order;
+import BE.QCReport;
 import GUI.View;
 import GUI.models.ReportModel;
 import GUI.util.Navigator;
@@ -15,6 +16,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -35,6 +38,8 @@ public class ReportController implements Initializable {
     public TextArea txtComment;
     @FXML
     public TextField txtEmail;
+    @FXML
+    public Label lblSentStatus;
 
 
     private String comment = null;
@@ -60,7 +65,24 @@ public class ReportController implements Initializable {
         txtEmail.setText(order.getCustomerEmail() != null ? order.getCustomerEmail() : "No email found");
     }
 
+    public void checkIfAlreadySent() {
+        if (order != null) {
+            try {
+                QCReport report = reportModel.getReportInfo(order.getId());
+                if (report != null) {
+                    LocalDate date = report.getTime().toLocalDate();
+
+                    lblSentStatus.setText("Last sent on: " + date.toString());
+                }
+            } catch (Exception e) {
+                //TODO alert or smth
+            }
+        }
+    }
+
     public void generateAndDisplayPreview() {
+
+        checkIfAlreadySent();
 
         pdfContainer.getChildren().clear();
         loadingSpinner.setVisible(true);

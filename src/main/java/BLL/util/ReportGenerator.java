@@ -6,6 +6,7 @@ import BE.Product;
 import GUI.util.SessionManager;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -51,6 +52,8 @@ public class ReportGenerator implements IReportGenerator {
 
         document.setMargins(16, 30, 16, 30);
 
+        DeviceRgb belmanBlue = new DeviceRgb(0, 75, 136);
+
         //Header
         Table header = new Table(UnitValue.createPercentArray(new float[]{2,3}))
                 .useAllAvailableWidth().setMarginBottom(0);
@@ -79,7 +82,7 @@ public class ReportGenerator implements IReportGenerator {
 
         //divider
         Paragraph divider = new Paragraph().add(" ")
-                .setBackgroundColor(ColorConstants.BLUE).setHeight(5).setMarginBottom(10);
+                .setBackgroundColor(belmanBlue).setHeight(5).setMarginBottom(10);
         document.add(divider);
 
         //title (says Quality Assurance Report Document)
@@ -115,7 +118,7 @@ public class ReportGenerator implements IReportGenerator {
         for (Product p : order.getProducts()) {
             //document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
             Paragraph productLabel = new Paragraph("Product: " + p.getProductNumber())
-                    .setFontSize(13).setBold().setFontColor(ColorConstants.BLUE)
+                    .setFontSize(13).setBold().setFontColor(belmanBlue)
                     .setMarginTop(10).setMarginBottom(5).setTextAlignment(TextAlignment.LEFT);
             document.add(productLabel);
 

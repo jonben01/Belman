@@ -17,36 +17,38 @@
                 <ImageView fx:id="imgFullPreview" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" />
             </children>
         </StackPane>
-        <VBox fx:id="cameraRightVbox" alignment="CENTER" maxWidth="160.0" minWidth="160.0" prefHeight="720.0" prefWidth="195.0" StackPane.alignment="TOP_RIGHT">
-            <children>
-                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+      <StackPane fx:id="controlsContainer" alignment="TOP_RIGHT" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" StackPane.alignment="TOP_RIGHT">
+         <children>
+                <VBox alignment="CENTER" maxHeight="120.0" maxWidth="160.0" minHeight="120.0" minWidth="160.0" prefHeight="200.0" prefWidth="100.0" StackPane.alignment="TOP_CENTER">
                     <children>
-                        <Button fx:id="btnReturn" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#handleReturn" prefHeight="40.0" prefWidth="40.0" styleClass="iconButton">
+                        <Button fx:id="btnReturn" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleReturn" prefHeight="60.0" prefWidth="60.0" styleClass="iconButton">
                             <VBox.margin>
-                                <Insets left="8.0" top="12.0" />
+                                <Insets left="8.0" />
                             </VBox.margin>
                             <graphic>
-                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../images/icons8-logout-100.png" />
                                     </image>
                                 </ImageView>
-                            </graphic></Button>
+                            </graphic>
+                  </Button>
                     </children>
                 </VBox>
-                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                <VBox alignment="CENTER" maxHeight="100.0" minHeight="100.0" prefHeight="200.0" prefWidth="100.0" StackPane.alignment="CENTER">
                     <children>
-                        <Button fx:id="btnCapture" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#handleCaptureImage" prefHeight="50.0" prefWidth="50.0" styleClass="iconButton">
+                        <Button fx:id="btnCapture" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleCaptureImage" prefHeight="60.0" prefWidth="60.0" styleClass="iconButton">
                             <graphic>
-                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../images/icons8-capture-96.png" />
                                     </image>
                                 </ImageView>
-                            </graphic></Button>
+                            </graphic>
+                  </Button>
                     </children>
                 </VBox>
-                <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                <VBox alignment="BOTTOM_CENTER" maxHeight="320.0" minHeight="320.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" StackPane.alignment="BOTTOM_CENTER">
                     <children>
                         <ImageView fx:id="imgPreview2" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" styleClass="imgPreview">
                             <clip>
@@ -60,44 +62,45 @@
                             <clip>
                                 <Rectangle arcHeight="20" arcWidth="20" height="90" width="140" />
                             </clip>
+                     <VBox.margin>
+                        <Insets bottom="12.0" />
+                     </VBox.margin>
                         </ImageView>
-                        <Button fx:id="btnFinish" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#handleFinishCamera" prefHeight="40.0" prefWidth="40.0" styleClass="iconButton">
+                        <Button fx:id="btnFinish" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleFinishCamera" prefHeight="60.0" prefWidth="60.0" styleClass="iconButton">
                             <VBox.margin>
-                                <Insets bottom="12.0" />
+                                <Insets bottom="36.0" />
                             </VBox.margin>
                             <graphic>
-                                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../images/icons8-checkmark-100.png" />
                                 </ImageView>
-                            </graphic></Button>
+                            </graphic>
+                  </Button>
                     </children>
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
                 </VBox>
-            </children>
-        </VBox>
+         </children>
+      </StackPane>
         <VBox fx:id="previewControls" alignment="CENTER" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" spacing="60.0" visible="false" StackPane.alignment="TOP_RIGHT">
             <children>
-            <Button fx:id="btnTag" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#handleTagImage" prefHeight="40.0" prefWidth="40.0">
+            <Button fx:id="btnTag" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#handleTagImage" prefHeight="50.0" prefWidth="50.0">
                <graphic>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/icons8-tag-96.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-                <Button fx:id="btnDeletePreview" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#handleDeletePreview" prefHeight="40.0" prefWidth="40.0" styleClass="preview-button">
+                <Button fx:id="btnDeletePreview" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#handleDeletePreview" prefHeight="50.0" prefWidth="50.0" styleClass="preview-button">
                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../images/icons8-delete-100.png" />
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="btnClosePreview" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#handleClosePreview" prefHeight="40.0" prefWidth="40.0" styleClass="preview-button">
+                <Button fx:id="btnClosePreview" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#handleClosePreview" prefHeight="50.0" prefWidth="50.0" styleClass="preview-button">
                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../images/icons8-checkmark-100.png" />
                         </ImageView>
                     </graphic>

@@ -1,4 +1,4 @@
-#cameraRightVbox {
+#controlsContainer {
     -fx-background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -14,6 +14,7 @@
     -fx-padding: 2px;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
+    -fx-cursor: hand;
 }
 
 .iconButton {

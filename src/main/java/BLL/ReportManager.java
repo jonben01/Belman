@@ -1,15 +1,21 @@
 package BLL;
 
 import BE.Order;
+import BE.QCReport;
+import BE.User;
 import BLL.util.Emailer;
 import BLL.util.IReportGenerator;
 import BLL.util.PDFPreviewUtil;
 import BLL.util.ReportGenerator;
 import DAL.IReportDataAccess;
 import DAL.ReportDAO;
+import GUI.util.SessionManager;
 import javafx.scene.image.Image;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ReportManager {
@@ -29,11 +35,24 @@ public class ReportManager {
         File emailPdf = reportGenerator.getFileAndStoreEmail(order, comment);
         emailer.sendEmail(toEmail, emailPdf, order);
 
+
+        LocalDateTime now = LocalDateTime.now();
+        int orderId = order.getId();
+        User sender = SessionManager.getInstance().getCurrentUser();
+        boolean isSent = true;
+
+        QCReport report = new QCReport(orderId, now, sender, isSent);
+        reportDataAccess.saveReportInfo(report);
+
     }
 
     public List<Image> generatePreview(Order order, String comment) throws Exception {
         File file = reportGenerator.generatePreview(order, comment);
-        System.out.println(file.getAbsolutePath());
         return PDFPreviewUtil.convertPDFToFXImage(file);
+
+    }
+
+    public QCReport getReportInfo(int orderId) throws Exception {
+        return reportDataAccess.getReportInfo(orderId);
     }
 }

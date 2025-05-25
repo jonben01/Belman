@@ -140,6 +140,13 @@ public class PhotoDAO implements IPhotoDataAccess {
         }
     }
 
+    /**
+     * Deletes the specified directory and its contents recursively. -- recursive due to walk()
+     * If the directory does not exist or is null, the method will exit silently.
+     *
+     * @param tempDir the path to the directory to be deleted recursively
+     *                including all files and subdirectories within it.
+     */
     private void deleteRecursively(Path tempDir) {
         if (tempDir == null || Files.notExists(tempDir)) {
             return;
