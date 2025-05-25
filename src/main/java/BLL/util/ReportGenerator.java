@@ -16,7 +16,6 @@ import com.itextpdf.layout.properties.*;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -34,6 +33,14 @@ public class ReportGenerator implements IReportGenerator {
         generateReport(order, temp.getAbsolutePath(), comment);
         temp.deleteOnExit();
         return temp;
+    }
+
+    @Override
+    public File getFileAndStoreEmail(Order order, String comment) throws Exception {
+        String filePath = ReportUtils.generateReportFileName(order);
+        generateReport(order, filePath, comment);
+        return new File(filePath);
+
     }
 
     @Override
@@ -125,4 +132,5 @@ public class ReportGenerator implements IReportGenerator {
         }
         document.close();
     }
+
 }

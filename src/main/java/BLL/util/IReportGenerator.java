@@ -3,7 +3,6 @@ package BLL.util;
 import BE.Order;
 
 import java.io.File;
-import java.io.IOException;
 
 public interface IReportGenerator {
 
@@ -11,4 +10,5 @@ public interface IReportGenerator {
 
     void generateReport(Order order, String filePath, String comment) throws Exception;
 
+    File getFileAndStoreEmail(Order order, String comment) throws Exception;
 }

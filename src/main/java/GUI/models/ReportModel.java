@@ -18,4 +18,8 @@ public class ReportModel {
         System.out.println("HELLO?");
         return reportManager.generatePreview(order, comment);
     }
+
+    public void sendEmail(String toEmail, String comment, Order order) throws Exception {
+        reportManager.sendEmail(toEmail, comment, order);
+    }
 }

@@ -13,6 +13,9 @@ import java.sql.SQLException;
 public class UserDAO implements IUserDataAcess {
 
 
+
+    //currently, this is case-insensitive because of mssql
+    //need to add COLLATE Latin1_General_CS_AS NOT NULL;
     @Override
     public User findUserByUsername (String username) throws Exception {
         String sql = "SELECT * FROM dbo.Users WHERE username = ?";

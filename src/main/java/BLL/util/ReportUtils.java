@@ -10,8 +10,6 @@ public class ReportUtils {
 
     //TODO move file.exist check and date formatting to this
 
-
-
     public static String generateReportFileName(Order order) {
         String targetDirectory = "QC_reports/";
         //make sure the directory exists

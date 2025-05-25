@@ -16,13 +16,29 @@
    <center>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Label" />
-            <HBox alignment="CENTER" prefHeight="51.0" prefWidth="928.0" spacing="12.0">
+            <VBox fx:id="orderBox" alignment="CENTER" maxHeight="200.0" maxWidth="400.0" minHeight="200.0" minWidth="400.0" prefHeight="200.0" prefWidth="500.0" spacing="6.0">
                <children>
-                  <TextField fx:id="txtOrderNumber" maxWidth="200.0" prefHeight="26.0" prefWidth="153.0" />
-                  <Button fx:id="btnSearchOrder" mnemonicParsing="false" onAction="#handleSearchOrder" text="Button" />
+                  <Label fx:id="orderLabel" text="Find Order" />
+                  <HBox alignment="CENTER" prefHeight="51.0" prefWidth="928.0" spacing="12.0">
+                     <children>
+                        <TextField fx:id="txtOrderNumber" maxWidth="200.0" prefHeight="34.0" prefWidth="191.0" promptText="Order number ">
+                           <padding>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </padding>
+                        </TextField>
+                        <Button fx:id="btnSearchOrder" mnemonicParsing="false" onAction="#handleSearchOrder">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icons8-search-100.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
          </children>
          <padding>
             <Insets bottom="100.0" />

@@ -58,8 +58,12 @@ public class LoginController implements Initializable {
     }
 
     private void login() {
-        String username = txtUsername.getText();
-        String password = txtPassword.getText();
+        String username = txtUsername.getText().trim();
+        String password = txtPassword.getText().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            return;
+        }
 
         try {
             User user = userModel.authenticateUser(username, password);

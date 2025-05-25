@@ -102,6 +102,24 @@ public class ReportController implements Initializable {
 
     @FXML
     public void handleSendReport(ActionEvent actionEvent) {
+        String toEmail = txtEmail.getText();
+        String comment = txtComment.getText();
+
+        //input validation using simple regex and ensuring @ sign surrounded by 2 Strings. -- but nothing more than that
+        //12124213@123123123......com.com.com is valid
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        if (toEmail.trim().matches(emailRegex)) {
+            try {
+                reportModel.sendEmail(toEmail, comment, order);
+                Stage stage = (Stage) btnLogout.getScene().getWindow();
+                stage.close();
+            } catch (Exception e) {
+                //todo alert
+                e.printStackTrace();
+            }
+        } else {
+            //TODO alert informing user that their email input is invalid
+        }
     }
 
     @FXML

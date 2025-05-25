@@ -62,12 +62,20 @@ public class PBKDF2PasswordUtil {
      * @return true if the two byte arrays are equal in content and length; false otherwise
      */
     private static boolean controlledEquals(byte[] hash, byte[] combinedHash) {
-        //todo understand logic operators in code better.
-        //cool new operator ^ (bitwise XOR) if equal in length = 0, if not, != 0
+
+        //Bitwise XOR (^) between lengths:
+        //If lengths are equal, result is 0.
+        //If lengths differ, result is non-zero.
         int diff = hash.length ^ combinedHash.length;
+        //Loop through both arrays up to the shorter one.
         for (int i = 0; i < hash.length && i < combinedHash.length; i++) {
+            //XOR (^) compares each byte: same bytes = 0, different bytes = non-zero
+            //Bitwise OR (|=) accumulates any difference found
             diff |= combinedHash[i] ^ hash[i];
+            //If all the bytes are the same, then diff remains 0
         }
+
+        //If diff is still 0, return true.
         return diff == 0;
     }
 

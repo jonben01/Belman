@@ -1,0 +1,23 @@
+#loginBox {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.3, 0, 4);
+}
+
+#loginLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field {
+    -fx-background-radius: 6;
+    -fx-padding: 8;
+}
+
+#btnLogin {
+    -fx-background-color: #2a73ff;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-padding: 8 20;
+}
