@@ -46,7 +46,8 @@ public class OrderController implements Initializable {
             orderModel = new OrderModel();
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO alert
+            AlertHelper.showAlertError("Fatal error",
+                    "Could not initialize components. Please restart the application.");
         }
     }
 
@@ -79,7 +80,9 @@ public class OrderController implements Initializable {
     }
 
     private void searchAndNavigate(String input) {
+        clearErrorStyles();
         if (input == null || input.isEmpty()) {
+            setErrorStyles(txtOrderNumber);
             return;
         }
         String[] parts = parseInput(input);
@@ -88,7 +91,7 @@ public class OrderController implements Initializable {
 
         Order order = findOrder(orderNumber);
         if (order == null) {
-            //TODO alert or css
+            setErrorStyles(txtOrderNumber);
             return;
         }
 
@@ -101,11 +104,17 @@ public class OrderController implements Initializable {
                 return;
             }
         }
-        Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
-            if (controller instanceof PhotoDocController pdocController) {
-                pdocController.setOrderAndMaybeProduct(order, product);
-            }
-        });
+        try {
+            Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
+                if (controller instanceof PhotoDocController pdocController) {
+                    pdocController.setOrderAndMaybeProduct(order, product);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertHelper.showAlertError("Failed to open new window",
+                    "An error occurred while opening the order window, please try again later.");
+        }
     }
 
     private String[] parseInput(String input) {
@@ -120,20 +129,28 @@ public class OrderController implements Initializable {
     }
 
     private Order findOrder(String orderNumber) {
+
+        clearErrorStyles();
+
         try {
-            Order order = orderModel.findOrderByOrderNumber(orderNumber);
-            if (order == null) {
-                //TODO alert
-                // and remove lbl change below, wrong label lmao
-                lblOrderSelect.setText("Order not found");
-            }
-            return order;
+            return orderModel.findOrderByOrderNumber(orderNumber);
 
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO alert
+            AlertHelper.showAlertError("Database error",
+                    "An error occurred while searching for the order. Please try again later.");
             return null;
         }
+    }
+
+    private void setErrorStyles(TextField textField) {
+        if (!textField.getStyleClass().contains("error")) {
+            textField.getStyleClass().add("error");
+        }
+    }
+
+    private void clearErrorStyles() {
+        txtOrderNumber.getStyleClass().remove("error");
     }
 
     private Product findProductOnOrder(Order order, String productNumber) {
@@ -146,6 +163,4 @@ public class OrderController implements Initializable {
                 .findFirst()
                 .orElse(null);
     }
-
-    //TODO input validation, remember to reset style as well
 }

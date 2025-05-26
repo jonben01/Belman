@@ -9,13 +9,7 @@ public class UserModel {
     private UserManager userManager;
 
     public UserModel() {
-        try {
-            userManager = new UserManager();
-        } catch (Exception e) {
-            e.printStackTrace();
-            //TODO bubble up exception
-        }
-
+        userManager = new UserManager();
     }
 
     public User authenticateUser(String username, String rawPassword) throws Exception {

@@ -11,7 +11,7 @@ public class ReportModel {
 
     private ReportManager reportManager;
 
-    public ReportModel() throws Exception{
+    public ReportModel(){
         reportManager = new ReportManager();
     }
 

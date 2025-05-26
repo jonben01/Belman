@@ -22,7 +22,7 @@ public class ReportManager {
     private IReportDataAccess reportDataAccess;
     private Emailer emailer;
 
-    public ReportManager() throws Exception{
+    public ReportManager(){
         reportGenerator = new ReportGenerator();
         reportDataAccess = new ReportDAO();
         emailer = new Emailer();

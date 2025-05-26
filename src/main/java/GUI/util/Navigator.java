@@ -39,7 +39,7 @@ public class Navigator {
         goTo(view, null);
     }
 
-    public void goTo(View view, Consumer<Object> controllerConsumer) {
+    public void goTo(View view, Consumer<Object> controllerConsumer) throws Exception {
         boolean wasFullScreen = stage.isFullScreen();
         boolean wasMaximized = stage.isMaximized();
 
@@ -65,7 +65,7 @@ public class Navigator {
 
         } catch (IOException e) {
             e.printStackTrace();
-            //TODO BUBBLE UP EXCEPTIO NADN THEN SHOW ALERT
+            throw new Exception("Failed to open new window", e);
         }
     }
 
@@ -92,7 +92,7 @@ public class Navigator {
     }
 
     //Should arguably use a different enum for modals, but for now this works.
-    public void showModal(View view, Consumer<Object> controllerConsumer) {
+    public void showModal(View view, Consumer<Object> controllerConsumer) throws Exception {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(view.getFXML())));
             Parent root = loader.load();
@@ -111,7 +111,7 @@ public class Navigator {
 
         } catch (IOException e) {
             e.printStackTrace();
-            //TODO BUBBLE UP EXCEPTION And THEN SHOW ALERT
+            throw new Exception("Failed to open modal", e);
         }
 
     }

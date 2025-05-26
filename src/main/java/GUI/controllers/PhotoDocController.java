@@ -123,7 +123,8 @@ public class PhotoDocController implements Initializable {
             orderModel = new OrderModel();
         } catch (Exception e) {
             e.printStackTrace();
-            //todo alert
+            AlertHelper.showAlertError("Fatal error",
+                    "An error occurred while initializing components, please try again later.");
         }
     }
 
@@ -163,7 +164,6 @@ public class PhotoDocController implements Initializable {
 
     @FXML
     public void handleOpenCamera(ActionEvent actionEvent) {
-        //TODO if more than once product is being shown, ask the user to select from a drop down.
 
         System.out.println(productList.size() + "");
         if (productContainer.getChildren().size() > 1 && selectedProduct == null) {
@@ -203,12 +203,8 @@ public class PhotoDocController implements Initializable {
             try {
                 Navigator.getInstance().showModal(View.REPORT_MODAL, controller -> {
                     if (controller instanceof ReportController reportController) {
-                        try {
-                            reportController.setOrder(order);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            //todo Alert
-                        }
+
+                        reportController.setOrder(order);
                     }
                 });
             } catch (Exception e) {
@@ -439,11 +435,17 @@ public class PhotoDocController implements Initializable {
     }
 
     private void openCamera(Product product) {
-        Navigator.getInstance().goTo(View.CAMERA, controller -> {
-            if (controller instanceof CameraController cameraController) {
-                cameraController.setOrderAndProduct(order, product);
-            }
-        });
+        try {
+            Navigator.getInstance().goTo(View.CAMERA, controller -> {
+                if (controller instanceof CameraController cameraController) {
+                    cameraController.setOrderAndProduct(order, product);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertHelper.showAlertError("Camera failed",
+                    "An error occurred while opening the camera, please try again later.");
+        }
     }
 
     @FXML

@@ -13,6 +13,9 @@
 .text-field, .password-field {
     -fx-background-radius: 6;
     -fx-padding: 8;
+    -fx-border-radius: 6;
+    -fx-border-width: 2;
+    -fx-border-color: transparent;
 }
 
 #btnLogin {
@@ -20,4 +23,17 @@
     -fx-text-fill: white;
     -fx-background-radius: 6;
     -fx-padding: 8 20;
+    -fx-cursor: hand;
+}
+
+#btnLogin:hover {
+    -fx-background-color: #005da6;
+}
+
+.text-field.error, .password-field.error {
+    -fx-border-color: #ff0000;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }

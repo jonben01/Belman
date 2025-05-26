@@ -10,14 +10,8 @@ public class UserManager {
 
     private IUserDataAcess userDataAcess;
 
-    public UserManager() throws Exception {
-        try {
-            userDataAcess = new UserDAO();
-        } catch (Exception e) {
-            throw new Exception();
-            //TODO better exception handling
-        }
-
+    public UserManager() {
+        userDataAcess = new UserDAO();
     }
 
     public User authenticateUser(String username, String rawPassword) throws Exception {

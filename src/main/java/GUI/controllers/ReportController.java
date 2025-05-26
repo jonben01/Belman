@@ -4,6 +4,7 @@ import BE.Order;
 import BE.QCReport;
 import GUI.View;
 import GUI.models.ReportModel;
+import GUI.util.AlertHelper;
 import GUI.util.Navigator;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -50,13 +51,8 @@ public class ReportController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        reportModel = new ReportModel();
 
-        try {
-            reportModel = new ReportModel();
-        } catch (Exception e) {
-            e.printStackTrace();
-            //todo alert
-        }
         Platform.runLater(this::checkIfAlreadySent);
     }
 
@@ -77,7 +73,11 @@ public class ReportController implements Initializable {
                     lblSentStatus.setText("Last sent on: " + date.toString());
                 }
             } catch (Exception e) {
-                //TODO alert or smth
+                //should say something else, but honestly, this should probably fail silently,
+                // seeing as it doesn't affect the user much
+                AlertHelper.showAlertError("Database connection issue",
+                        "An error occurred while checking if the report was already sent." +
+                                " Please try again later.");
             }
         }
     }
@@ -114,7 +114,8 @@ public class ReportController implements Initializable {
         previewTask.setOnFailed(event -> {
             previewTask.getException().printStackTrace();
             loadingSpinner.setVisible(false);
-            //todo alert
+            AlertHelper.showAlertError("Failed to generate report",
+                    "An error occurred while generating the report. Please try again later.");
         });
 
         Thread thread = new Thread(previewTask);
@@ -124,6 +125,7 @@ public class ReportController implements Initializable {
 
     @FXML
     public void handleSendReport(ActionEvent actionEvent) {
+        clearErrorStyles();
         String toEmail = txtEmail.getText();
         String comment = txtComment.getText();
 
@@ -136,12 +138,23 @@ public class ReportController implements Initializable {
                 Stage stage = (Stage) btnLogout.getScene().getWindow();
                 stage.close();
             } catch (Exception e) {
-                //todo alert
+                AlertHelper.showAlertError("Failed to send report",
+                        "An error occurred while sending the report. Please try again later.");
                 e.printStackTrace();
             }
         } else {
-            //TODO alert informing user that their email input is invalid
+            setErrorStyles(txtEmail);
         }
+    }
+
+    private void setErrorStyles(TextField textField) {
+        if (!textField.getStyleClass().contains("error")) {
+            textField.getStyleClass().add("error");
+        }
+    }
+
+    private void clearErrorStyles() {
+        txtEmail.getStyleClass().remove("error");
     }
 
     @FXML

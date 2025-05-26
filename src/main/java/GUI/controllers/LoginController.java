@@ -54,6 +54,17 @@ public class LoginController implements Initializable {
         }
     }
 
+    private void setErrorStyles(TextField textField) {
+        if (!textField.getStyleClass().contains("error")) {
+            textField.getStyleClass().add("error");
+        }
+    }
+
+    private void clearErrorStyles() {
+        txtUsername.getStyleClass().remove("error");
+        txtPassword.getStyleClass().remove("error");
+    }
+
     @FXML
     public void handleLogin(ActionEvent actionEvent) {
         login();
@@ -63,7 +74,20 @@ public class LoginController implements Initializable {
         String username = txtUsername.getText().trim();
         String password = txtPassword.getText().trim();
 
-        if (username.isEmpty() || password.isEmpty()) {
+        clearErrorStyles();
+
+        boolean error = false;
+
+        if (username.isEmpty()) {
+            setErrorStyles(txtUsername);
+            error = true;
+        }
+        if (password.isEmpty()) {
+            setErrorStyles(txtPassword);
+            error = true;
+        }
+
+        if (error) {
             return;
         }
 
@@ -75,8 +99,8 @@ public class LoginController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO switch to styling
-            AlertHelper.showAlertError("Login error", "incorrect username or password");
+            setErrorStyles(txtPassword);
+            setErrorStyles(txtUsername);
 
         }
     }

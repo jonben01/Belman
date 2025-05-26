@@ -151,17 +151,22 @@ public class CameraController implements Initializable {
 
     @FXML
     public void handleReturn(ActionEvent actionEvent) {
-        Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
-            if (controller instanceof PhotoDocController photoDocController) {
-                photoDocController.setOrderAndMaybeProduct(selectedOrder, selectedProduct);
-            }
-        });
-        //shut down the ExecutorService and stop the use of camera
-        if (mainPreviewExecutor != null && !mainPreviewExecutor.isShutdown()) {
-            mainPreviewExecutor.shutdownNow();
-            mainPreviewExecutor = null;
+        try {
+            Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
+                if (controller instanceof PhotoDocController photoDocController) {
+                    photoDocController.setOrderAndMaybeProduct(selectedOrder, selectedProduct);
+                }
+            });
+            //shut down the ExecutorService and stop the use of camera
+            if (mainPreviewExecutor != null && !mainPreviewExecutor.isShutdown()) {
+                mainPreviewExecutor.shutdownNow();
+                mainPreviewExecutor = null;
 
-            strategy.stop();
+                strategy.stop();
+            }
+        } catch (Exception e) {
+            AlertHelper.showAlertError("Failed to open new window",
+                    "An error occurred while returning to previous window");
         }
     }
 
@@ -201,11 +206,17 @@ public class CameraController implements Initializable {
             strategy.stop();
         }
         selectedProduct.getPhotos().addAll(photosToSave);
-        Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
-            if (controller instanceof PhotoDocController photoDocController) {
-                photoDocController.setOrderAndMaybeProduct(selectedOrder, selectedProduct);
-            }
-        });
+        try {
+            Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
+                if (controller instanceof PhotoDocController photoDocController) {
+                    photoDocController.setOrderAndMaybeProduct(selectedOrder, selectedProduct);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertHelper.showAlertError("Failed to return",
+                    "An error occurred while returning to previous window");
+        }
     }
 
     private void openOverlayPreview(int i) {
