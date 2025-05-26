@@ -29,4 +29,8 @@ public class UserModel {
     public ObservableList<User> getAllUsers() throws Exception {
         return userManager.getAllUsers();
     }
+
+    public void deleteUser(User user) throws Exception {
+        userManager.deleteUser(user);
+    }
 }

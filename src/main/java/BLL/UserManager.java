@@ -41,4 +41,8 @@ public class UserManager {
     public ObservableList<User> getAllUsers() throws Exception {
         return userDataAcess.getAllUsers();
     }
+
+    public void deleteUser(User user) throws Exception {
+        userDataAcess.deleteUser(user);
+    }
 }

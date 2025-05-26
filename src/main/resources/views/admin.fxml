@@ -53,7 +53,6 @@
                 </HBox>
                 <HBox prefHeight="31.0" prefWidth="928.0">
                     <children>
-                        <TextField fx:id="txtSearch" disable="true" prefHeight="26.0" prefWidth="0.0" promptText="🔍 Search ---- FIX RESIZING, SO IT MATCHES THE BOX BELOW" HBox.hgrow="ALWAYS" />
                         <Region prefHeight="26.0" prefWidth="45.0" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets />
@@ -125,9 +124,9 @@
                                 <TextField fx:id="txtEmail" editable="false" promptText="email" />
                                 <Label text="Phone Number" />
                                 <TextField fx:id="txtPhone" editable="false" promptText="phone" />
-                                <HBox alignment="CENTER_RIGHT" prefHeight="10.0" prefWidth="438.0">
+                                <HBox alignment="CENTER_RIGHT" prefHeight="10.0" prefWidth="686.0">
                                     <children>
-                                        <Button fx:id="btnDeleteUser" disable="true" mnemonicParsing="false" onAction="#handleDeleteUser" text="delete user" />
+                                        <Button fx:id="btnDeleteUser" mnemonicParsing="false" onAction="#handleDeleteUser" text="delete user" />
                                     </children>
                                     <VBox.margin>
                                         <Insets />

@@ -110,22 +110,23 @@ public class AdminController implements Initializable {
 
     @FXML
     public void handleCreateUser(ActionEvent actionEvent) {
-        Navigator.getInstance().showModal(View.USER_CREATION_MODAL, controller -> {
+        try {
+            Object controller = Navigator.getInstance().showModalAndReturnController(View.USER_CREATION_MODAL);
             if (controller instanceof UserCreationController userCreationController) {
                 User newUser = userCreationController.getNewUser();
                 if (newUser != null) {
-                    try {
-                        User user = userModel.createUser(newUser);
-                        lstUsers.getItems().add(user);
-                        lstUsers.getSelectionModel().select(user);
-                    } catch(Exception e) {
-                        e.printStackTrace();
-                        AlertHelper.showAlertError("User creation error",
-                                "An error occurred while creating the user. Please try again later.");
-                    }
+                    userModel.createUser(newUser);
+                    populateUserList();
+                    lstUsers.getSelectionModel().select(newUser);
+                    User selectedUser = lstUsers.getSelectionModel().getSelectedItem();
+                    setUserInfo(selectedUser);
                 }
             }
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertHelper.showAlertError("Creation error",
+                    "An error occurred while creating the user. Please try again.");
+        }
     }
 
     private void setUserInfo(User selectedUser) {
@@ -171,5 +172,31 @@ public class AdminController implements Initializable {
 
     @FXML
     public void handleDeleteUser(ActionEvent actionEvent) {
+        User user = lstUsers.getSelectionModel().getSelectedItem();
+        if (user == null) {
+            return;
+        }
+        if (user.equals(SessionManager.getInstance().getCurrentUser())) {
+            AlertHelper.showAlertWarning("Deletion error", "You cannot delete yourself.");
+            return;
+        }
+        boolean verify = AlertHelper.showConfirmationAlert("Delete user",
+                "Are you sure you want to delete user " + user.getUsername() + "?");
+        if (verify) {
+            try {
+                userModel.deleteUser(user);
+                lstUsers.getItems().remove(user);
+                if (!lstUsers.getItems().isEmpty()) {
+                    //select the first item if the list is not empty
+                    lstUsers.getSelectionModel().select(0);
+                    User selectedUser = lstUsers.getSelectionModel().getSelectedItem();
+                    setUserInfo(selectedUser);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                AlertHelper.showAlertError("Deletion error",
+                        "An error occurred while deleting the user. Please try again later.");
+            }
+        }
     }
 }

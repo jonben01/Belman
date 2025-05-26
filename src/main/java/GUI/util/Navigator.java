@@ -69,9 +69,26 @@ public class Navigator {
         }
     }
 
-    //likely to be redundant, but it's there in case it ever needs to be used
-    public void showModal(View view) {
-        showModal(view, null);
+    //have to use this to create new user, there are other workarounds too, but this is straightforward.
+    public Object showModalAndReturnController(View view) throws Exception {
+        try {
+            FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(getClass().getResource(view.getFXML()))));
+            Parent root = loader.load();
+
+            Stage modalStage = new Stage();
+            modalStage.initModality(Modality.APPLICATION_MODAL);
+            modalStage.setScene(new Scene(root));
+            modalStage.centerOnScreen();
+
+
+            Object controller = loader.getController();
+            //dont return controller till the window is closed.
+            modalStage.showAndWait();
+            return controller;
+
+        } catch (IOException e) {
+            throw new Exception("Error showing modal or returning the controller when doing so", e);
+        }
     }
 
     //Should arguably use a different enum for modals, but for now this works.
