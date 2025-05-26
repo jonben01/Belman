@@ -41,8 +41,7 @@ public class UserDAO implements IUserDataAcess {
             }
 
         } catch (SQLException e) {
-            //TODO exception handling write a beautiful message please
-            throw new Exception();
+            throw new Exception("Error while finding user by username:" + username, e);
         }
         return null;
     }
@@ -79,15 +78,21 @@ public class UserDAO implements IUserDataAcess {
             return user;
 
         } catch (SQLException e) {
-            //TODO exception handling write a beautiful message please
-            throw new Exception(e);
+            throw new Exception("Error while creating user:" + user.getUsername(), e);
         }
     }
 
     @Override
     public void deleteUser(User user) throws Exception {
+        String sql = "DELETE FROM dbo.Users WHERE id = ?";
+        try (Connection connection = DBConnector.getInstance().getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-        //TODO implement
+            stmt.setInt(1, user.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("Error while deleting user:" + user.getUsername(), e);
+        }
     }
 
     @Override
@@ -121,8 +126,7 @@ public class UserDAO implements IUserDataAcess {
             return users;
 
         } catch (SQLException e) {
-            //TODO exception handling write a beautiful message please
-            throw new Exception(e);
+            throw new Exception("An Exception occurred while fetching all users", e);
         }
     }
 }

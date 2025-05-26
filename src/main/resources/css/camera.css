@@ -37,3 +37,29 @@
     -fx-padding: 8;
     -fx-cursor: hand;
 }
+
+.product-label {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.product-button {
+    -fx-background-color: #004b88;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 8px;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.product-button:hover {
+    -fx-background-color: #006bbd;
+}
+
+#vboxGray {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+}

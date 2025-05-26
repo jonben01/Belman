@@ -16,7 +16,6 @@ public class ReportModel {
     }
 
     public List<Image> generatePreview(Order order, String comment) throws Exception {
-        System.out.println("HELLO?");
         return reportManager.generatePreview(order, comment);
     }
 

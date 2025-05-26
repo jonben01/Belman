@@ -1,8 +1,9 @@
 package GUI.controllers;
 
 import BE.User;
+import GUI.util.AlertHelper;
 import GUI.util.Navigator;
-import GUI.util.SessionManager;
+import BLL.util.SessionManager;
 import GUI.View;
 import GUI.models.UserModel;
 import javafx.collections.FXCollections;
@@ -77,7 +78,8 @@ public class AdminController implements Initializable {
             userModel = new UserModel();
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO ALERT
+            AlertHelper.showAlertError("Fatal error",
+                    "Could not initialize components. Please restart the application.");
         }
     }
 
@@ -87,7 +89,8 @@ public class AdminController implements Initializable {
             users = userModel.getAllUsers();
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO alert
+            AlertHelper.showAlertError("Loading error",
+                    "An error occurred while loading users. Please try again later.");
         }
 
         if (users == null) {
@@ -117,7 +120,8 @@ public class AdminController implements Initializable {
                         lstUsers.getSelectionModel().select(user);
                     } catch(Exception e) {
                         e.printStackTrace();
-                        //TODO alerts
+                        AlertHelper.showAlertError("User creation error",
+                                "An error occurred while creating the user. Please try again later.");
                     }
                 }
             }

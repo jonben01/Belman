@@ -1,8 +1,9 @@
 package GUI.controllers;
 
 import BE.User;
+import GUI.util.AlertHelper;
 import GUI.util.Navigator;
-import GUI.util.SessionManager;
+import BLL.util.SessionManager;
 import GUI.View;
 import GUI.models.UserModel;
 import javafx.event.ActionEvent;
@@ -48,7 +49,8 @@ public class LoginController implements Initializable {
             userModel = new UserModel();
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO alert
+            AlertHelper.showAlertError("FataL error",
+                    "Could not initialize components. Please restart the application.");
         }
     }
 
@@ -73,7 +75,9 @@ public class LoginController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO alert
+            //TODO switch to styling
+            AlertHelper.showAlertError("Login error", "incorrect username or password");
+
         }
     }
 }

@@ -7,7 +7,7 @@ public interface CameraStrategy {
 
     void start() throws Exception;
 
-    void stop() throws Exception;
+    void stop();
 
     Image takePhoto() throws Exception;
 }

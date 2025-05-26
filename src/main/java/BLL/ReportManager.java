@@ -9,13 +9,11 @@ import BLL.util.PDFPreviewUtil;
 import BLL.util.ReportGenerator;
 import DAL.IReportDataAccess;
 import DAL.ReportDAO;
-import GUI.util.SessionManager;
+import BLL.util.SessionManager;
 import javafx.scene.image.Image;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ReportManager {

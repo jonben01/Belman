@@ -3,9 +3,10 @@ package GUI.controllers;
 import BE.*;
 import BLL.CameraStrategy;
 import BLL.OpenCVStrategy;
+import GUI.util.AlertHelper;
 import GUI.util.ImageScaler;
 import GUI.util.Navigator;
-import GUI.util.SessionManager;
+import BLL.util.SessionManager;
 import GUI.View;
 import GUI.models.PhotoModel;
 import javafx.application.Platform;
@@ -16,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -63,6 +65,12 @@ public class CameraController implements Initializable {
     public Button btnClosePreview;
     @FXML
     public Button btnTag;
+    @FXML
+    public VBox vboxGray;
+    @FXML
+    public VBox tagOptionsContainer;
+    @FXML
+    public Label lblTag;
 
     private ScheduledExecutorService mainPreviewExecutor;
     private CameraStrategy strategy;
@@ -88,7 +96,8 @@ public class CameraController implements Initializable {
             photoModel = new PhotoModel();
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO alert
+            AlertHelper.showAlertError("Fatal error",
+                    "Could not initialize components. Please restart the application and try again.");
         }
     }
 
@@ -114,7 +123,8 @@ public class CameraController implements Initializable {
             strategy.start();
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO alert
+            AlertHelper.showAlertError("Camera not found", "No valid camera was found." +
+                    "Please ensure it is not being used and that it is connected to the device");
         }
         mainPreviewExecutor = Executors.newSingleThreadScheduledExecutor();
         mainPreviewExecutor.scheduleAtFixedRate(() -> {
@@ -150,11 +160,8 @@ public class CameraController implements Initializable {
         if (mainPreviewExecutor != null && !mainPreviewExecutor.isShutdown()) {
             mainPreviewExecutor.shutdownNow();
             mainPreviewExecutor = null;
-            try {
-                strategy.stop();
-            } catch (Exception e) {
-                //TODO exception
-            }
+
+            strategy.stop();
         }
     }
 
@@ -183,17 +190,15 @@ public class CameraController implements Initializable {
             photoModel.saveImageAndPath(photosToSave, fileNames, currentUser, selectedProduct, orderNumber);
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO alert
+            AlertHelper.showAlertError("Data error",
+                    "An error occurred while saving the images, please try again.");
         }
         //shut down the ExecutorService and stop the use of camera
         if (mainPreviewExecutor != null && !mainPreviewExecutor.isShutdown()) {
             mainPreviewExecutor.shutdownNow();
             mainPreviewExecutor = null;
-            try {
-                strategy.stop();
-            } catch (Exception e) {
-                //TODO exception
-            }
+
+            strategy.stop();
         }
         selectedProduct.getPhotos().addAll(photosToSave);
         Navigator.getInstance().goTo(View.PHOTO_DOC, controller -> {
@@ -219,6 +224,28 @@ public class CameraController implements Initializable {
             ImageScaler.adjustImageToContainer(imgFullPreview, rootPane);
         }
     }
+
+
+    //TODO swap from using ArrayDeque<Image> to ArrayDeque<Photo>, the below method sets the lbl for that index only, oops
+    /*
+    private void showTag(int i) {
+        if (i < photosToSave.size()) {
+            Tag tag = photosToSave.get(i).getTag();
+            if (tag != null) {
+                String tagText = tag.toString().toUpperCase().charAt(0) + tag.toString().substring(1).toLowerCase();
+                lblTag.setText(tagText);
+                lblTag.setVisible(true);
+            } else {
+                lblTag.setText("");
+                lblTag.setVisible(false);
+            }
+        } else {
+            lblTag.setText("");
+            lblTag.setVisible(false);
+        }
+    }
+
+     */
 
     @FXML
     public void handleDeletePreview(ActionEvent actionEvent) {
@@ -296,7 +323,8 @@ public class CameraController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            //TODO alert
+            AlertHelper.showAlertError("Camera error",
+                    "An issue occurred while capturing the image, please try again.");
         }
     }
 
@@ -316,27 +344,29 @@ public class CameraController implements Initializable {
         imgPreview2.setImage((gallery.size() > 1 ? gallery.toArray(new Image[0])[1] : null));
     }
 
-
     public void handleTagImage(ActionEvent actionEvent) {
-        ContextMenu contextMenu = new ContextMenu();
+        vboxGray.setVisible(true);
+        tagOptionsContainer.getChildren().clear();
 
+        Label lblSelectTag = new Label("Select tag to apply");
+        lblSelectTag.getStyleClass().add("product-label");
+
+        tagOptionsContainer.getChildren().add(lblSelectTag);
         for (Tag tag : Tag.values()) {
             if (tag == Tag.APPROVED || tag == Tag.REJECTED) {
                 //skip the QC tags
                 continue;
             }
-            String tagText = tag.toString().charAt(0) + tag.toString().substring(1).toLowerCase();
-            MenuItem tagItem = new MenuItem(tagText);
+            String tagText = tag.toString().toUpperCase().charAt(0) + tag.toString().substring(1).toLowerCase();
 
-            tagItem.setOnAction(event -> {
+            Button tagButton = new Button(tagText);
+            tagButton.getStyleClass().add("product-button");
+            tagButton.setOnAction(event -> {
                 applyTagToPreview(tag);
+                vboxGray.setVisible(false);
+                lblTag.setText(tagText);
             });
-            contextMenu.getItems().add(tagItem);
-        }
-
-        Bounds boundsInScreen = previewControls.localToScreen(previewControls.getBoundsInLocal());
-        if (boundsInScreen != null) {
-            contextMenu.show(previewControls, boundsInScreen.getMaxX(), boundsInScreen.getMinY());
+            tagOptionsContainer.getChildren().add(tagButton);
         }
     }
 

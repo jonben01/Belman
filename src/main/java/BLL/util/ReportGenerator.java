@@ -3,7 +3,6 @@ package BLL.util;
 import BE.Order;
 import BE.Photo;
 import BE.Product;
-import GUI.util.SessionManager;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.colors.DeviceRgb;

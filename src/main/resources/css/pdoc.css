@@ -104,3 +104,29 @@
     -fx-border-color: gray;
 }
 
+#btnRefresh {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+    -fx-border-width: 0;
+}
+
+#btnRefresh:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.15);
+}
+
+#btnGenerateReport,
+#btnOpenCamera {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+    -fx-border-width: 0;
+}
+
+#btnGenerateReport:hover,
+#btnOpenCamera:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.15);
+}
+

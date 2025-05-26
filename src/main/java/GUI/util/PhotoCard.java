@@ -1,7 +1,5 @@
 package GUI.util;
 
-//essentially a BE, but only ever used in PhotoDoc, so I decided to put it here.
-
 import BE.Photo;
 import BE.Tag;
 import javafx.scene.image.Image;
@@ -16,6 +14,8 @@ public class PhotoCard extends VBox {
     private static final int IMAGE_WIDTH = 480;
     private static final int IMAGE_HEIGHT = 270;
 
+
+    //essentially a BE, but only ever used in PhotoDoc, so I decided to put it here.
     public PhotoCard(Photo photo) {
         this.photo = photo;
 

@@ -1,10 +1,9 @@
 package GUI.controllers;
 
 import BE.*;
-import BLL.util.ReportGenerator;
-import BLL.util.ReportUtils;
+import BLL.util.SessionManager;
+import GUI.models.OrderModel;
 import GUI.models.PhotoModel;
-import GUI.models.ReportModel;
 import GUI.util.*;
 import GUI.View;
 import javafx.application.Platform;
@@ -12,10 +11,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -82,6 +78,8 @@ public class PhotoDocController implements Initializable {
     public StackPane actualRootPane;
     @FXML
     public VBox previewMetaData;
+    @FXML
+    public ProgressIndicator loadingSpinner;
 
     private Order order;
     private Product selectedProduct;
@@ -98,6 +96,7 @@ public class PhotoDocController implements Initializable {
     private Role userRole;
 
     private PhotoModel photoModel;
+    private OrderModel orderModel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -120,6 +119,7 @@ public class PhotoDocController implements Initializable {
     public PhotoDocController() {
         try {
             photoModel = new PhotoModel();
+            orderModel = new OrderModel();
         } catch (Exception e) {
             e.printStackTrace();
             //todo alert
@@ -128,6 +128,36 @@ public class PhotoDocController implements Initializable {
 
     @FXML
     public void handleRefresh(ActionEvent actionEvent) {
+        productContainer.getChildren().clear();
+        loadingSpinner.setVisible(true);
+        loadingSpinner.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+
+        Task<Order> refreshTask = new Task<>() {
+            @Override
+            protected Order call() throws Exception {
+                //find the order again, in case changes were made
+                return orderModel.findOrderByOrderNumber(order.getOrderNumber());
+            }
+        };
+
+        refreshTask.setOnSucceeded(event -> {
+            Order refreshedOrder = refreshTask.getValue();
+            this.order = refreshedOrder;
+            setOrderAndMaybeProduct(refreshedOrder, selectedProduct);
+            loadingSpinner.setVisible(false);
+        });
+
+        refreshTask.setOnFailed(event -> {
+            Throwable ex = refreshTask.getException();
+            ex.printStackTrace();
+            loadingSpinner.setVisible(false);
+            AlertHelper.showAlertError("Refresh failed",
+                    "An error occurred while refreshing the order, please try again.");
+        });
+
+        Thread thread = new Thread(refreshTask);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @FXML
@@ -166,7 +196,6 @@ public class PhotoDocController implements Initializable {
 
     }
 
-    //TODO rename this button
     @FXML
     public void handleGenerateReport(ActionEvent actionEvent) {
         if (verifyDocumentation()) {
@@ -200,30 +229,40 @@ public class PhotoDocController implements Initializable {
             if (p.getPhotos().isEmpty()) {
                 productsWithNoPhotos.add(p.getProductNumber());
             }
+
+            //check if a product contains unapproved photos.
+            boolean unapproved = false;
             for (Photo photo : p.getPhotos()) {
                 if (photo.getTag() != Tag.APPROVED) {
-                    unapprovedPhotos.add(p.getProductNumber());
+                    unapproved = true;
+                    //quit early if any photo is unapproved
+                    break;
                 }
             }
+            if (unapproved) {
+                unapprovedPhotos.add(p.getProductNumber());
+            }
         }
+        //everything except for the limited photos should ideally not let the user generate a report.
         if (!productsWithNoPhotos.isEmpty()) {
             return AlertHelper.showConfirmationAlert("Missing documentation",
-                    "The following products have no photos:\n"
+                    "The following products have no photos:\n\n"
                             + String.join("\n", productsWithNoPhotos)
-                            + "\nDo you want to generate a report anyway?");
-        }
-        if (!productsWithLimitedPhotos.isEmpty()) {
-            return AlertHelper.showConfirmationAlert("Limited photos",
-                    "The following products have less than 5 photos:\n"
-                            + String.join("\n", productsWithLimitedPhotos)
-                            + "\nDo you want to generate a report anyway?");
+                            + "\n\nGenerate a report anyway?");
         }
         if (!unapprovedPhotos.isEmpty()) {
             return AlertHelper.showConfirmationAlert("Unapproved photos",
-                    "The following products have unapproved photos:\n"
+                    "The following products have unapproved photos:\n\n"
                             + String.join("\n", unapprovedPhotos)
-                            + "\nDo you want to generate a report anyway?");
+                            + "\n\nGenerate a report anyway?");
         }
+        if (!productsWithLimitedPhotos.isEmpty()) {
+            return AlertHelper.showConfirmationAlert("Limited photos",
+                    "The following products have less than 5 photos:\n\n"
+                            + String.join("\n", productsWithLimitedPhotos)
+                            + "\n\nGenerate a report anyway?");
+        }
+
         return true;
     }
 
@@ -236,11 +275,15 @@ public class PhotoDocController implements Initializable {
         this.order = order;
         this.selectedProduct = product;
 
+
         productList = order.getProducts();
 
         lblOrderNumber.setText(order.getOrderNumber() + "-");
 
-        populateProductSwitcher(order);
+        if (cmbProducts.getItems().size() <= 1) {
+            populateProductSwitcher(order);
+        }
+
         productContainer.getChildren().clear();
 
         if (product != null) {

@@ -5,6 +5,7 @@ import BE.QCReport;
 import GUI.View;
 import GUI.models.ReportModel;
 import GUI.util.Navigator;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,6 +57,7 @@ public class ReportController implements Initializable {
             e.printStackTrace();
             //todo alert
         }
+        Platform.runLater(this::checkIfAlreadySent);
     }
 
 
@@ -81,8 +83,6 @@ public class ReportController implements Initializable {
     }
 
     public void generateAndDisplayPreview() {
-
-        checkIfAlreadySent();
 
         pdfContainer.getChildren().clear();
         loadingSpinner.setVisible(true);

@@ -1,4 +1,4 @@
-package GUI.util;
+package BLL.util;
 
 import BE.User;
 

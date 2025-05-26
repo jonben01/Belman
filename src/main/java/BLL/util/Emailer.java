@@ -52,7 +52,7 @@ public class Emailer {
 
         //mail body
         MimeBodyPart bodyPart = new MimeBodyPart();
-    bodyPart.setText("Placeholder message telling you about your exciting Quality Assurance Report, " +
+        bodyPart.setText("Placeholder message telling you about your exciting Quality Assurance Report, " +
             "which can be found in the attachments!");
 
         //pdf attachment

@@ -63,8 +63,7 @@ public class PhotoDAO implements IPhotoDataAccess {
                 try {
                     connection.rollback();
                 } catch (SQLException ex) {
-                    //TODO exception handling write a beautiful message please
-                    throw new Exception("Error while rolling back transaction", ex);
+                    throw new Exception("Error while rolling back image transaction", ex);
                 }
                 deleteFiles(persistedPaths);
                 throw new Exception("Error while saving images", e);
@@ -76,8 +75,7 @@ public class PhotoDAO implements IPhotoDataAccess {
                     connection.setAutoCommit(true);
                     connection.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
-                    //TODO figure out how to deal with this best
+                    throw new Exception("Error while closing connection while saving images", e);
                 }
             }
         }
