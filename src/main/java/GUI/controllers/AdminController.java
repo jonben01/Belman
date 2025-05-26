@@ -115,10 +115,9 @@ public class AdminController implements Initializable {
             if (controller instanceof UserCreationController userCreationController) {
                 User newUser = userCreationController.getNewUser();
                 if (newUser != null) {
-                    userModel.createUser(newUser);
+                    User user = userModel.createUser(newUser);
                     populateUserList();
-                    lstUsers.getSelectionModel().select(newUser);
-                    User selectedUser = lstUsers.getSelectionModel().getSelectedItem();
+                    lstUsers.getSelectionModel().select(user);
                     setUserInfo(selectedUser);
                 }
             }
