@@ -105,7 +105,12 @@ public class AdminController implements Initializable {
 
     @FXML
     public void handleLogout(ActionEvent actionEvent) {
-        Navigator.getInstance().goTo(View.ORDER);
+        try {
+            Navigator.getInstance().goTo(View.ORDER);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertHelper.showAlertError("Window eroor", "An error has occurred while trying to open the order window");
+        }
     }
 
     @FXML

@@ -63,12 +63,22 @@ public class OrderController implements Initializable {
     @FXML
     public void handleLogout(ActionEvent actionEvent) {
         SessionManager.getInstance().logout();
-        Navigator.getInstance().goTo(View.LOGIN);
+        try {
+            Navigator.getInstance().goTo(View.LOGIN);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertHelper.showAlertError("Window error", "An error has occurred while trying to go to the login screen");
+        }
     }
 
     @FXML
     public void handleAdmin(ActionEvent actionEvent) {
-        Navigator.getInstance().goTo(View.ADMIN);
+        try {
+            Navigator.getInstance().goTo(View.ADMIN);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertHelper.showAlertError("Window error", "An error has occurred while trying to go the admin screen");
+        }
     }
 
 

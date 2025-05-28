@@ -5,7 +5,12 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-        Navigator.getInstance().init(stage);
+        try {
+            Navigator.getInstance().init(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //the program would have died
+        }
 
     }
 

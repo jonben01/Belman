@@ -29,13 +29,13 @@ public class Navigator {
         return instance;
     }
 
-    public void init(Stage primaryStage) {
+    public void init(Stage primaryStage) throws Exception {
         this.stage = primaryStage;
         goTo(View.LOGIN);
         stage.show();
     }
 
-    public void goTo(View view) {
+    public void goTo(View view) throws Exception {
         goTo(view, null);
     }
 

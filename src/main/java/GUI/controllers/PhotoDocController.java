@@ -265,7 +265,13 @@ public class PhotoDocController implements Initializable {
 
     @FXML
     public void handleLogout(ActionEvent actionEvent) {
-        Navigator.getInstance().goTo(View.ORDER);
+        try {
+            Navigator.getInstance().goTo(View.ORDER);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertHelper.showAlertError("Window error",
+                    "An error has occured while trying to go back to the order window");
+        }
     }
 
     public void setOrderAndMaybeProduct(Order order, Product product) {
