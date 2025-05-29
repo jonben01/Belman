@@ -15,25 +15,25 @@ import java.util.ResourceBundle;
 
 public class UserCreationController implements Initializable {
     @FXML
-    public TextField txtUsername;
+    private TextField txtUsername;
     @FXML
-    public TextField txtPassword;
+    private TextField txtPassword;
     @FXML
-    public TextField txtFirstName;
+    private TextField txtFirstName;
     @FXML
-    public TextField txtLastName;
+    private TextField txtLastName;
     @FXML
-    public TextField txtPhone;
+    private TextField txtPhone;
     @FXML
-    public TextField txtEmail;
+    private TextField txtEmail;
     @FXML
-    public ComboBox<Role> cmbRole;
+    private ComboBox<Role> cmbRole;
     @FXML
-    public Button btnCloseWindow;
+    private Button btnCloseWindow;
     @FXML
-    public Button btnCancel;
+    private Button btnCancel;
     @FXML
-    public Button btnCreate;
+    private Button btnCreate;
 
     private User newUser;
 

@@ -25,23 +25,23 @@ import java.util.ResourceBundle;
 
 public class ReportController implements Initializable {
     @FXML
-    public VBox pdfContainer;
+    private VBox pdfContainer;
     @FXML
-    public Button btnSendReport;
+    private Button btnSendReport;
     @FXML
-    public Button btnLogout;
+    private Button btnLogout;
     @FXML
-    public ScrollPane scrollPane;
+    private ScrollPane scrollPane;
     @FXML
-    public ProgressIndicator loadingSpinner;
+    private ProgressIndicator loadingSpinner;
     @FXML
-    public Button btnComment;
+    private Button btnComment;
     @FXML
-    public TextArea txtComment;
+    private TextArea txtComment;
     @FXML
-    public TextField txtEmail;
+    private TextField txtEmail;
     @FXML
-    public Label lblSentStatus;
+    private Label lblSentStatus;
 
 
     private String comment = null;

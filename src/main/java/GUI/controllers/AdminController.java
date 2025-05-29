@@ -23,37 +23,37 @@ import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
     @FXML
-    public HBox belmanBar;
+    private HBox belmanBar;
     @FXML
-    public StackPane logoPane;
+    private StackPane logoPane;
     @FXML
-    public ImageView vboxLogo;
+    private ImageView vboxLogo;
     @FXML
-    public Label lblCurrentUser;
+    private Label lblCurrentUser;
     @FXML
-    public Button btnLogout;
+    private Button btnLogout;
     @FXML
-    public ImageView logoutImage;
+    private ImageView logoutImage;
     @FXML
-    public TextField txtSearch;
+    private TextField txtSearch;
     @FXML
-    public Button btnCreateUser;
+    private Button btnCreateUser;
     @FXML
-    public ListView<User> lstUsers;
+    private ListView<User> lstUsers;
     @FXML
-    public TextField txtUsername;
+    private TextField txtUsername;
     @FXML
-    public TextField txtPassword;
+    private TextField txtPassword;
     @FXML
-    public TextField txtFirstName;
+    private TextField txtFirstName;
     @FXML
-    public TextField txtLastName;
+    private TextField txtLastName;
     @FXML
-    public TextField txtEmail;
+    private TextField txtEmail;
     @FXML
-    public TextField txtPhone;
+    private TextField txtPhone;
     @FXML
-    public Button btnDeleteUser;
+    private Button btnDeleteUser;
 
     private User selectedUser;
     private UserModel userModel;

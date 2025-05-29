@@ -27,60 +27,60 @@ import java.util.ResourceBundle;
 
 public class PhotoDocController implements Initializable {
     @FXML
-    public VBox productContainer;
+    private VBox productContainer;
     @FXML
-    public Button btnRefresh;
+    private Button btnRefresh;
     @FXML
-    public Button btnLogout;
+    private Button btnLogout;
     @FXML
-    public Button btnOpenCamera;
+    private Button btnOpenCamera;
     @FXML
-    public Button btnGenerateReport;
+    private Button btnGenerateReport;
     @FXML
-    public Label lblOrderNumber;
+    private Label lblOrderNumber;
     @FXML
-    public ComboBox<Product> cmbProducts;
+    private ComboBox<Product> cmbProducts;
     @FXML
-    public Label lblMetaDataTag;
+    private Label lblMetaDataTag;
     @FXML
-    public Label lblMetaDataOrderAndProduct;
+    private Label lblMetaDataOrderAndProduct;
     @FXML
-    public Label lblMetaDataTimestamp;
+    private Label lblMetaDataTimestamp;
     @FXML
-    public Label lblMetaDataUser;
+    private Label lblMetaDataUser;
     @FXML
-    public StackPane previewControls;
+    private StackPane previewControls;
     @FXML
-    public Button btnPrev;
+    private Button btnPrev;
     @FXML
-    public Button btnNext;
+    private Button btnNext;
     @FXML
-    public Label lblTotalImages;
+    private Label lblTotalImages;
     @FXML
-    public Button btnApprove;
+    private Button btnApprove;
     @FXML
-    public Button btnReject;
+    private Button btnReject;
     @FXML
-    public Button btnClosePreview;
+    private Button btnClosePreview;
     @FXML
-    public VBox vboxGray;
+    private VBox vboxGray;
     @FXML
-    public VBox productOptionContainer;
+    private VBox productOptionContainer;
     @FXML
-    public StackPane previewContainer;
+    private StackPane previewContainer;
     @FXML
-    public ImageView imgPreview;
+    private ImageView imgPreview;
     //not root, but root for images
     @FXML
-    public StackPane rootPane;
+    private StackPane rootPane;
     @FXML
-    public ScrollPane scrollPane;
+    private ScrollPane scrollPane;
     @FXML
-    public StackPane actualRootPane;
+    private StackPane actualRootPane;
     @FXML
-    public VBox previewMetaData;
+    private VBox previewMetaData;
     @FXML
-    public ProgressIndicator loadingSpinner;
+    private ProgressIndicator loadingSpinner;
 
     private Order order;
     private Product selectedProduct;

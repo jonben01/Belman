@@ -38,39 +38,39 @@ import java.util.concurrent.TimeUnit;
 public class CameraController implements Initializable {
 
     @FXML
-    public StackPane rootPane;
+    private StackPane rootPane;
     @FXML
-    public StackPane cameraStackPane;
+    private StackPane cameraStackPane;
     @FXML
-    public ImageView imgCamera;
+    private ImageView imgCamera;
     @FXML
-    public ImageView imgFullPreview;
+    private ImageView imgFullPreview;
     @FXML
-    public StackPane controlsContainer;
+    private StackPane controlsContainer;
     @FXML
-    public Button btnReturn;
+    private Button btnReturn;
     @FXML
-    public Button btnCapture;
+    private Button btnCapture;
     @FXML
-    public ImageView imgPreview2;
+    private ImageView imgPreview2;
     @FXML
-    public ImageView imgPreview1;
+    private ImageView imgPreview1;
     @FXML
-    public Button btnFinish;
+    private Button btnFinish;
     @FXML
-    public VBox previewControls;
+    private VBox previewControls;
     @FXML
-    public Button btnDeletePreview;
+    private Button btnDeletePreview;
     @FXML
-    public Button btnClosePreview;
+    private Button btnClosePreview;
     @FXML
-    public Button btnTag;
+    private Button btnTag;
     @FXML
-    public VBox vboxGray;
+    private VBox vboxGray;
     @FXML
-    public VBox tagOptionsContainer;
+    private VBox tagOptionsContainer;
     @FXML
-    public Label lblTag;
+    private Label lblTag;
 
     private ScheduledExecutorService mainPreviewExecutor;
     private CameraStrategy strategy;
