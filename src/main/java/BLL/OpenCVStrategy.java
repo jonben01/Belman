@@ -20,8 +20,8 @@ public class OpenCVStrategy implements CameraStrategy {
 
         camera = new VideoCapture(0);
         if (!camera.isOpened()) {
-            throw new Exception("Could not open camera, either in use or not found");
-            //TODO, when this exception is caught show the user
+            throw new Exception("Could not open camera," +
+                    " either in use or not found");
         }
         camera.set(Videoio.CAP_PROP_FRAME_WIDTH, 1280);
         camera.set(Videoio.CAP_PROP_FRAME_HEIGHT, 720);
@@ -45,6 +45,5 @@ public class OpenCVStrategy implements CameraStrategy {
         MatOfByte buffer =new MatOfByte();
         Imgcodecs.imencode(".png", frame, buffer);
         return new Image(new ByteArrayInputStream(buffer.toArray()));
-
     }
 }

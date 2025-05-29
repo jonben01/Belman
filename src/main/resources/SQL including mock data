@@ -1,0 +1,83 @@
+CREATE TABLE Roles (
+    role_id INT PRIMARY KEY identity (1,1),
+    role_name NVARCHAR(50) UNIQUE NOT NULL
+)
+INSERT INTO Roles (role_name) VALUES
+('ADMIN'),
+('OPERATOR'),
+('QC');
+CREATE TABLE Users (
+    id INT PRIMARY KEY IDENTITY (1,1),
+    username NVARCHAR(50) UNIQUE NOT NULL,
+    password_hash NVARCHAR(500) NOT NULL,
+    role_id INT FOREIGN KEY REFERENCES Roles(role_id),
+    first_name NVARCHAR(50) NOT NULL,
+    last_name NVARCHAR(100) NOT NULL,
+    email NVARCHAR(100),
+    phone NVARCHAR(20),
+    created_at DATETIME NOT NULL DEFAULT GETDATE(),
+    last_edited DATETIME DEFAULT NULL,
+    last_edited_by NVARCHAR(50)
+)
+CREATE TABLE Orders (
+    id INT PRIMARY KEY IDENTITY (1,1),
+    order_number NVARCHAR(100) UNIQUE NOT NULL,
+    customer_email NVARCHAR(255),
+    created_at DATETIME NOT NULL DEFAULT GETDATE()
+)
+CREATE TABLE Products (
+    id INT PRIMARY KEY IDENTITY (1,1),
+    order_id INT NOT NULL FOREIGN KEY REFERENCES Orders(id) ON DELETE CASCADE,
+    products_order_number NVARCHAR(100) UNIQUE NOT NULL
+)
+CREATE TABLE Tags (
+    id INT PRIMARY KEY IDENTITY (1,1),
+    name NVARCHAR(100) UNIQUE NOT NULL
+)
+INSERT INTO dbo.Tags (name) VALUES
+('DAMAGED'),
+('APPROVED'),
+('REJECTED'),
+('COSMETIC'),
+('INFORMATION')
+
+CREATE TABLE Photos (
+    id INT PRIMARY KEY IDENTITY (1,1),
+    product_id INT NOT NULL FOREIGN KEY REFERENCES Products(id) ON DELETE CASCADE,
+    file_path NVARCHAR(500) NOT NULL,
+    uploaded_by INT NULL FOREIGN KEY REFERENCES Users(id) ON DELETE SET NULL,
+    uploaded_at DATETIME NOT NULL DEFAULT GETDATE(),
+    tag_id INT NULL FOREIGN KEY REFERENCES Tags(id) ON DELETE SET NULL
+)
+CREATE TABLE QCReports (
+    id INT PRIMARY KEY IDENTITY (1,1),
+    order_id INT NOT NULL FOREIGN KEY REFERENCES Orders(id) ON DELETE CASCADE,
+    created_at DATETIME NOT NULL DEFAULT GETDATE(),
+    created_by INT NULL FOREIGN KEY REFERENCES Users(id) ON DELETE SET NULL,
+    mailed BIT NOT NULL DEFAULT 0 -- redundant, since an entry to the table is only added after being sent either way
+)
+
+INSERT INTO Orders (order_number, customer_email) VALUES
+('ORD001', 'customer1@example.com'),
+('ORD002', 'customer2@example.com'),
+('ORD003', 'customer3@example.com'),
+('ORD004', 'customer4@example.com'),
+('ORD005', NULL);
+
+-- Products for Order ID 1
+INSERT INTO Products (order_id, products_order_number) VALUES
+(1, 'P001'),
+(1, 'P002'),
+(1, 'P003');
+
+-- Products for Order ID 2
+INSERT INTO Products (order_id, products_order_number) VALUES
+(2, 'P004'),
+(2, 'P005');
+
+-- Products for Order ID 3
+INSERT INTO Products (order_id, products_order_number) VALUES
+(3, 'P006'),
+(3, 'P007'),
+(3, 'P008'),
+(3, 'P009');

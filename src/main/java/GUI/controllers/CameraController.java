@@ -134,7 +134,6 @@ public class CameraController implements Initializable {
                     imgCamera.setImage(frame);
                     ImageScaler.adjustImageToContainer(imgCamera, cameraStackPane);
                 });
-
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
