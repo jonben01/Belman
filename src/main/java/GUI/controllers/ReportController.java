@@ -2,10 +2,8 @@ package GUI.controllers;
 
 import BE.Order;
 import BE.QCReport;
-import GUI.View;
 import GUI.models.ReportModel;
 import GUI.util.AlertHelper;
-import GUI.util.Navigator;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -19,7 +17,6 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 

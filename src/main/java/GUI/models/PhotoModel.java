@@ -5,7 +5,6 @@ import BE.Product;
 import BE.User;
 import BLL.PhotoManager;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class PhotoModel {

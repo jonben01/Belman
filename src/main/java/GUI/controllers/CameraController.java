@@ -14,11 +14,8 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -76,11 +73,13 @@ public class CameraController implements Initializable {
     private CameraStrategy strategy;
 
 
-    //ArrayDeque is used to mimic FIFO behavior for the gallery, but achieves it in reverse order
-    //using addFirst and removeLast instead of addLast and removeFirst.
-    //the only benefit to this is avoiding index flipping for the UI logic.
-    //easier to write and read images[0] than images[images.length-1]
-    //LinkedList is more code and slower.
+    /**
+     *ArrayDeque is used to mimic FIFO behavior for the gallery, but achieves it in reverse order
+     *using addFirst and removeLast instead of addLast and removeFirst.
+     *the only benefit to this is avoiding index flipping for the UI logic.
+     *easier to write and read images[0] than images[images.length-1]
+     *LinkedList is more code and slower.
+     */
     private final ArrayDeque<Image> gallery = new ArrayDeque<>();
     private PhotoModel photoModel;
     private List<Photo> photosToSave = new ArrayList<>();

@@ -2,13 +2,13 @@ package BLL;
 
 import BE.User;
 import BLL.util.PBKDF2PasswordUtil;
-import DAL.IUserDataAcess;
+import DAL.IUserDataAccess;
 import DAL.UserDAO;
 import javafx.collections.ObservableList;
 
 public class UserManager {
 
-    private IUserDataAcess userDataAcess;
+    private IUserDataAccess userDataAcess;
 
     public UserManager() {
         userDataAcess = new UserDAO();

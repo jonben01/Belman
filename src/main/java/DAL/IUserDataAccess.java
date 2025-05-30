@@ -3,7 +3,7 @@ package DAL;
 import BE.User;
 import javafx.collections.ObservableList;
 
-public interface IUserDataAcess {
+public interface IUserDataAccess {
 
     User findUserByUsername(String username) throws Exception;
 
