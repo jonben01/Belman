@@ -366,7 +366,8 @@ public class CameraController implements Initializable {
                 //skip the QC tags
                 continue;
             }
-            String tagText = tag.toString().toUpperCase().charAt(0) + tag.toString().substring(1).toLowerCase();
+            String tagText = tag.toString().toUpperCase().charAt(0) +
+                    tag.toString().substring(1).toLowerCase();
 
             Button tagButton = new Button(tagText);
             tagButton.getStyleClass().add("product-button");

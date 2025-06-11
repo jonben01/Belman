@@ -1,7 +1,6 @@
 package DAL;
 
 import BE.*;
-import javafx.collections.ObservableList;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -243,7 +241,6 @@ public class PhotoDAO implements IPhotoDataAccess {
                             photo.setTag(null);
                         }
                     }
-                    //TODO get more confident in explaining this
                     photoMap.computeIfAbsent(productId, _ -> new ArrayList<>()).add(photo);
                 }
             }
@@ -254,7 +251,7 @@ public class PhotoDAO implements IPhotoDataAccess {
     @Override
     public void updateTag(Photo photo) throws Exception {
         String sql;
-        //super stupid
+
         if (photo.getTag() == Tag.APPROVED) {
             sql = "UPDATE Photos SET tag_id = 2 WHERE id = ?";
         } else if (photo.getTag() == Tag.REJECTED) {

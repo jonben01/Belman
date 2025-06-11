@@ -1,10 +1,6 @@
 package DAL;
 
-
 import BE.Order;
-import BE.Product;
-
-import java.util.List;
 
 public interface IOrderDataAccess {
 

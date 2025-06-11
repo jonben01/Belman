@@ -6,14 +6,13 @@ import BE.User;
 import DAL.IPhotoDataAccess;
 import DAL.PhotoDAO;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class PhotoManager {
 
     private IPhotoDataAccess photoDataAccess;
 
-    public PhotoManager() throws Exception{
+    public PhotoManager() {
         photoDataAccess = new PhotoDAO();
     }
 
