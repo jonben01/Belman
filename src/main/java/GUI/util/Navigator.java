@@ -48,6 +48,7 @@ public class Navigator {
             Parent root = loader.load();
 
             Object controller = loader.getController();
+            //if the controllerConsumer and the controller is not null do what was defined in the lambda expression
             if (controllerConsumer != null && controller != null) {
                 controllerConsumer.accept(controller);
             }
